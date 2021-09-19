@@ -1,0 +1,147 @@
+@import url("https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@500;700;900&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 100vh;
+  max-width: 100%;
+  margin: auto;
+  background-color: #e0e8ff;
+  font-family: "Red Hat Display", sans-serif;
+  font-size: 16px;
+  position: relative;
+}
+
+.bg-svg {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+p,
+span {
+  color: #7280a7;
+}
+
+.hero-image {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.container {
+  width: 300px;
+}
+
+.card-content {
+  text-align: center;
+  background-color: white;
+  padding: 5%;
+  line-height: 1.5;
+  position: relative;
+  margin-top: -10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.card-content h3 {
+  padding-bottom: 10px;
+}
+
+.plan {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 5%;
+  background-color: #f5f7ff;
+  margin: 5% 0;
+  border-radius: 10px;
+  font-size: 14px;
+}
+.plan img {
+  padding-right: 15px;
+  width: 50px;
+}
+.plan a {
+  margin-left: 25%;
+}
+
+.btn {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.btn button {
+  width: 100%;
+  padding: 5% 0;
+  background-color: #3829e0;
+  border: 0;
+  border-radius: 10px;
+  outline: 0;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+.btn .cancel {
+  margin: 5% 0 1% 0;
+  text-decoration: none;
+  color: #7280a7;
+  font-weight: 900;
+  font-size: 14px;
+}
+
+button:hover,
+.change:hover {
+  opacity: 50%;
+}
+
+.cancel:hover {
+  color: #1f2f56;
+}
+
+.attribution {
+  font-size: 14px;
+  text-align: center;
+  margin-top: 5%;
+}
+
+.attribution a {
+  color: #3829e0;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 768px) {
+  .bg-svg {
+    display: none;
+  }
+
+  .mobile-svg {
+    background-image: url(./images/pattern-background-mobile.svg);
+  }
+}

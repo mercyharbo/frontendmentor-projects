@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@500;700;900&display=swap');
+
+// Primary colors 
+$pale-blue: hsl(225, 100%, 94%);
+$bright-blue: hsl(245, 75%, 52%);
+
+// Neutral colors 
+$very-pale-blue: hsl(225, 100%, 98%);
+$desaturated-blue: hsl(224, 23%, 55%);
+$dark-blue: hsl(223, 47%, 23%);
+
+// Font family 
+$default-family: 'Red Hat Display',
+sans-serif;
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    max-width: 100%;
+    margin: auto;
+    background-color: $pale-blue;
+    font-family: $default-family;
+    font-size: 16px;
+    position: relative;
+}
+
+.bg-svg {
+    position: absolute;
+    z-index: -1;
+    top: 0;
+}
+
+img {
+    max-width: 100%;
+}
+
+p, 
+span {
+    color: $desaturated-blue;
+}
+
+.hero-image {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.container {
+    width: 300px;
+}
+
+.card-content {
+    text-align: center;
+    background-color: white;
+    padding: 5%;
+    line-height: 1.5;
+    position: relative;
+    margin-top: -10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    
+    h3 {
+        padding-bottom: 10px;
+    }
+}
+
+.plan {
+    display: flex;
+    align-items: center;
+    padding: 5%;
+    background-color: $very-pale-blue;
+    margin: 5% 0;
+    border-radius: 10px;
+    font-size: 14px;
+
+    img {
+        padding-right: 15px;
+        width: 50px;
+    }
+
+    a {
+        margin-left: 25%;
+    }
+}
+
+.btn {
+    display: flex;
+    flex-direction: column;
+
+    button {
+        width: 100%;
+        padding: 5% 0;
+        background-color: $bright-blue;
+        border: 0;
+        border-radius: 10px;
+        outline: 0;
+        color: white;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .cancel {
+        margin: 5% 0 1% 0;
+        text-decoration: none;
+        color: $desaturated-blue;
+        font-weight: 900;
+        font-size: 14px;
+    }
+}
+
+button:hover,
+.change:hover {
+    opacity: 50%;
+}
+
+.cancel:hover {
+    color: $dark-blue;
+}
+
+// Footer 
+.attribution {
+    font-size: 14px;
+    text-align: center;
+    margin-top: 5%;
+}
+
+.attribution a {
+    color: $bright-blue;
+    text-decoration: none;
+}
+
+@media screen and (max-width: 768px) {
+    .bg-svg {
+        display: none;
+    }
+
+    .mobile-svg {
+        background-image: url(./images/pattern-background-mobile.svg);
+    }
+}
