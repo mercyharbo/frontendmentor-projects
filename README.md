@@ -7,3 +7,4 @@ This repository is going to be containing all my frontendmentor projects and you
 | #        | Projects           | Live-site  |
 | ------------- |:-------------:| -----:|
 | 1     | [Order Summary Card](https://github.com/mercyharbo/frontendmentor-projects/tree/order-summary-card) | [ Live-demo ](https://ordercard.netlify.app/) |
+| 2     | [Time Tracking Dashboard](https://github.com/mercyharbo/frontendmentor-projects/tree/time-tracking-dashboard) | [ Live=demo ](https://timetrackindashboard.netlify.app/)
