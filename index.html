@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- displays site properly based on user's device -->
+  <link rel="stylesheet" href="./style.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+
+  <title>Frontend Mentor | E-commerce product page</title>
+
+  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+  <style>
+
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <!-- Navbar Brand Name -->
+    <div class="Navbar_wrapper">
+      <div class="Nav_Brand">
+        <img src="./images/logo.svg" alt="Logo" class="logo">
+      </div>
+
+      <!-- Navbar Links -->
+      <nav class="Navbar">
+        <a href="#" class="Nav_Links"> Collections </a>
+        <a href="#" class="Nav_Links"> Men </a>
+        <a href="#" class="Nav_Links"> Women </a>
+        <a href="#" class="Nav_Links"> About </a>
+        <a href="#" class="Nav_Links"> Contact </a>
+      </nav>
+
+      <!-- Carts & profile -->
+      <div class="Navbar-right">
+
+        <div class="carts">
+          <img src="./images/icon-cart.svg" alt="" class="cart_btn">
+
+          <div class="list">
+            <p class="text"> Cart </p>
+            <hr>
+          </div>
+
+        </div>
+
+        <div class="account">
+          <img src="./images/image-avatar.png" alt="">
+        </div>
+      </div>
+    </div>
+    <hr>
+
+    <!-- Photo card -->
+    <div class="product_wrapper">
+      <div class="card">
+        <!-- Full-width images with number text -->
+        <div class="product">
+          <img src="./images/image-product-1.jpg">
+        </div>
+
+        <div class="product">
+          <img src="./images/image-product-2.jpg">
+        </div>
+
+        <div class="product">
+          <img src="./images/image-product-3.jpg">
+        </div>
+
+        <div class="product">
+          <img src="./images/image-product-4.jpg">
+        </div>
+
+        <!-- Thumbnail images -->
+        <div class="product_thumbnail">
+          <div class="thumbnail_column">
+            <img class="demo cursor" src="./images/image-product-1-thumbnail.jpg" onclick="currentSlide(1)"
+              alt="The Woods">
+          </div>
+
+          <div class="thumbnail_column">
+            <img class="demo cursor" src="./images/image-product-2-thumbnail.jpg" onclick="currentSlide(2)"
+              alt="Cinque Terre">
+          </div>
+
+          <div class="thumbnail_column">
+            <img class="demo cursor" src="./images/image-product-3-thumbnail.jpg" onclick="currentSlide(3)"
+              alt="Mountains and fjords">
+          </div>
+
+          <div class="thumbnail_column">
+            <img class="demo cursor" src="./images/image-product-4-thumbnail.jpg" onclick="currentSlide(4)"
+              alt="Northern Lights">
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Product Information -->
+      <div class="product_info">
+        <span> Sneaker Company </span>
+        <h1 class="sneaker_price">
+          Fall Limited Edition Sneakers
+        </h1>
+
+        <p>
+          These low-profile sneakers are your perfect casual wear companion. Featuring a
+          durable rubber outer sole, they’ll withstand everything the weather can offer.
+        </p>
+
+        <!-- Product price -->
+        <div class="price">
+          <h3> $125.00 <span> 50% </span></h2>
+            <label class="grey"> $250.00 </label>
+        </div>
+
+        <!-- Number of product to add to cart -->
+        <div class="product_count">
+
+          <!-- Minus and plus form -->
+          <form>
+            <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">
+              <img src="./images/icon-minus.svg" alt="minus">
+            </div>
+            <!-- input count -->
+            <input type="number" id="number" value="1" />
+
+            <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">
+              <img src="./images/icon-plus.svg" alt="">
+            </div>
+          </form>
+
+          <!-- Add to cart button -->
+          <button class="add_cart_btn">
+            <img src="./images/icon-cart.svg" alt="">
+            Add to cart
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+  </div>
+
+  <div class="attribution">
+    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>.
+    Coded by <a href="www.twitter.com/codewithmercy"> Code With Mercy </a>.
+  </div>
+
+  <script src="./script.js"></script>
+</body>
+
+</html>

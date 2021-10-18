@@ -1,0 +1,296 @@
+@import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&display=swap');
+
+// Primary color 
+$orange: hsl(26, 100%, 55%);
+$paleOrange: hsl(25, 100%, 94%);
+
+// Neutral colors
+$veryVaryBlue: hsl(220, 13%, 13%);
+$DarkGrayishBlue: hsl(219, 9%, 45%);
+$GrayishBlue: hsl(220, 14%, 75%);
+$LightGrayishBlue: hsl(223, 64%, 98%);
+$white: hsl(0, 0%, 100%);
+
+// Black with 75% opacity for lightbox background 
+$lightBox: hsl(0, 0%, 0%);
+
+// Font family 
+$fontFamily: 'Kumbh Sans',
+sans-serif;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: $LightGrayishBlue;
+    font-family: $fontFamily;
+    font-size: 16px;
+    padding: 0 5%;
+}
+
+img {
+    max-width: 100%;
+}
+
+hr {
+    opacity: 40%;
+}
+
+// Navbar 
+.Navbar_wrapper {
+    display: flex;
+    align-items: center;
+    padding: 2% 5% 1% 5%;
+
+    .Navbar {
+        margin-left: 5%;
+
+        a {
+            text-decoration: none;
+            color: $GrayishBlue;
+            padding: 0 15px;
+        }
+    }
+
+    .Navbar-right {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 30px;
+        margin-left: auto;
+
+        .account img {
+            width: 50px;
+        }
+
+        .cart_btn {
+            cursor: pointer;
+        }
+
+        .carts {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .list {
+            display: none;
+            width: 320px;
+            margin-top: 10px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            position: absolute;
+            left: -150px;
+            top: 50px;
+            
+            hr {
+                margin: 5% 0 2% 0;
+            }
+
+            .text {
+                font-weight: 900;
+            }
+
+            .checkout {
+                border: 0;
+                border-radius: 10px;
+                background-color: $orange;
+                max-width: 100%;
+                padding: 10px;
+                margin: 10px 0;
+                color: $white;
+                font-weight: 500;
+            }
+
+            .order {
+                display: flex;
+                gap: 20px;
+                padding: 5% 0;
+                
+                .active {
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 10px;
+                }
+
+                .details {
+                    display: flex;
+                    flex-direction: column;
+
+                    .product_price {
+                        padding-top: 10px;
+                        font-size: 14px;
+                    }
+                }
+
+                .delete_btn {
+                    width: 15px;
+                    height: 20px;
+                }
+            }
+        }
+
+        .showCart {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+}
+
+// Product Wrapper 
+.product_wrapper {
+    display: flex;
+    gap: 8%;
+    padding: 2% 5%;
+
+    .card {
+        .product {
+            display: none;
+            padding-bottom: 10px;
+
+            img {
+                border-radius: 10px;
+                background-position: center;
+                background-size: cover;
+            }
+        }
+
+    }
+}
+
+// Product Thumbnails 
+.product_thumbnail {
+  display: flex;
+  justify-content: space-between;
+  gap: 5%;
+
+  .thumbnail_column img{
+      border-radius: 10px;
+      cursor: pointer;
+  }
+
+  .active,
+  .thumbnail_column:focus {
+      border: 3px solid $orange;
+      padding: 2px;
+      opacity: 50%;
+  }
+}
+
+// Porduct informtaion 
+.product_info {
+   padding: 5% 0;
+   
+   span {
+       color: $orange;
+       text-transform: uppercase;
+       font-weight: 900;
+   }
+
+   h1 {
+       padding: 2% 0;
+       width: 70%;
+   }
+
+   p {
+       color: $DarkGrayishBlue;
+       width: 80%;
+       line-height: 25px;
+   }
+
+   .price {
+        padding: 3% 0;
+        line-height: 25px;
+
+        span {
+            font-size: 14px;
+            margin-left: 10px;
+            background-color: $paleOrange;
+            border-radius: 5px;
+            padding: 3px;
+        }
+
+        label {
+            color: $GrayishBlue;
+            text-decoration: line-through;
+            font-size: 14px;
+            font-weight: 900;
+        }
+   }
+
+   .product_count {
+       display: flex;
+       gap: 5%;
+
+       form {
+           display: flex;
+           justify-content: space-between;
+           align-items: center;
+           gap: 10px;
+           padding: 10px 20px;
+           background-color: $LightGrayishBlue;
+           border: 0;
+           border-radius: 10px;
+           cursor: pointer;
+
+           span {
+               color: black;
+           }
+
+           input {
+               border: 0;
+               outline: 0;
+               width: 40px;
+               margin: 0;
+               text-align: center;
+               font-weight: 900;
+               background: transparent;
+           }
+
+           input[type=number]::-webkit-inner-spin-button,
+           input[type=number]::-webkit-outer-spin-button {
+               -webkit-appearance: none;
+               margin: 0;
+           }
+       }
+
+       button {
+           display: flex;
+           align-items: center;
+           gap: 10px;
+           padding: 10px 25px;
+           outline: 0;
+           border: 0;
+           border-radius: 10px;
+           background-color: $orange;
+           color: white;
+           font-weight: 700;
+
+           img {
+               filter: brightness(0) invert(1);
+               width: 15px;
+           }
+       }
+   }
+}
+
+.cartMessage {
+    text-align: center;
+    padding: 5% 0;
+    font-size: 16px;
+    color: $veryVaryBlue;
+}
+
+.attribution {
+    font-size: 14px;
+    text-align: center;
+    padding: 2% 0;
+}
+
+.attribution a {
+    color: hsl(228, 45%, 44%);
+}
