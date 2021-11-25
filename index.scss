@@ -1,0 +1,176 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap');
+
+//Primary color 
+$softBlue: hsl(215, 51%, 70%);
+$cyan: hsl(178, 100%, 50%);
+
+// Neutral colors
+$main_bg: hsl(217, 54%, 11%);
+$card_bg: hsl(216, 50%, 16%);
+$line: hsl(215, 32%, 27%);
+$white: hsl(0, 0%, 100%);
+
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: $main_bg;
+    font-family: 'Outfit',
+    sans-serif;
+    font-size: 18px;
+    color: $white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    height: 100vh;
+    max-width: 100vw;
+}
+
+.container {
+    width: 250px;
+    padding: 10px;
+    margin: 5% 0;
+    background-color: $card_bg;
+    border-radius: 10px;
+
+    .card_image {
+        position: relative;
+        background-color: $cyan;
+        border-radius: 10px;
+        cursor: pointer;
+
+        .nft_image {
+            opacity: 1;
+            display: block;
+            width: 100%;
+            height: auto;
+            transition: .5s ease;
+            backface-visibility: hidden;
+            background-color: $cyan;
+        }
+
+        .icon {
+            transition: .5s ease;
+            opacity: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        &:hover .nft_image {
+            opacity: 0.3;
+            background-color: $cyan;
+        }
+
+        &:hover .icon {
+            opacity: 1;
+        }
+    }
+
+    img {
+        max-width: 100%;
+        border-radius: 10px;
+    }
+
+    // Conent 
+    .content {
+        padding: 10px 0;
+
+        h4 {
+            padding-bottom: 10px;
+            cursor: pointer;
+
+            &:hover {
+                color: $cyan;
+            }
+        }
+
+        p {
+            color: $softBlue;
+            font-family: inherit;
+            font-size: 14px;
+        }
+    }
+    //Daysout and eth amount
+    .daysout {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 15px;
+        padding: 15px 0;
+
+
+        .eth {
+            color: $cyan;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .grey {
+            color: grey;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+    }
+
+    //Hr
+    hr {
+        background-color: $line;
+    }
+
+    .footer {
+        padding: 10px 0;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 14px;
+
+        img {
+            width: 30px;
+            border-radius: 50%;
+            border: 1px solid $white;
+        }
+
+        .soft {
+            color: $softBlue;
+        }
+
+        .cyan:hover {
+            color: cyan;
+            cursor: pointer;
+        }
+    }
+}
+
+//Footer 
+.attribution {
+    font-size: 13px;
+    text-align: center;
+    margin: 2%;
+
+    a {
+        color: hsl(228, 45%, 44%);
+    }
+} 
+
+@media only screen and (max-width: 375px) {
+    body {
+        padding: 5%;
+    }
+
+    .container {
+        width: 100%;
+    }
+}
+
