@@ -29,7 +29,7 @@ Users should be able to:
 
 ### Screenshot
 
-![](./screenshot.jpg)
+![image](https://user-images.githubusercontent.com/64808015/143510623-0a7428f5-0c24-4f89-a784-7261390276fb.png)
 
 ### Links
 
