@@ -8,3 +8,4 @@ This repository is going to be containing all my frontendmentor projects and you
 | ------------- |:-------------:| -----:|
 | 1     | [Order Summary Card](https://github.com/mercyharbo/frontendmentor-projects/tree/order-summary-card) | [ Live-demo ](https://ordercard.netlify.app/) |
 | 2     | [Time Tracking Dashboard](https://github.com/mercyharbo/frontendmentor-projects/tree/time-tracking-dashboard) | [ Live-demo ](https://timetrackindashboard.netlify.app/)
+| 3     | [ NFT Preview Card Component ](https://github.com/mercyharbo/frontendmentor-projects/tree/nft_preview_card) | [ Live-demo ](https://nftpreviewcard.netlify.app/)
