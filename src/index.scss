@@ -158,7 +158,7 @@ Body {
          letter-spacing: 3px;
 
          span {
-             color: grey;
+             color: rgb(180, 177, 177);
          }
      }
 
@@ -232,7 +232,7 @@ Body {
                  }
 
                  hr {
-                     opacity: 50%;
+                     color: rgb(180, 177, 177);
                      margin: 5% 0 0 0;
                  }
 
@@ -251,7 +251,7 @@ Body {
                              font-size: 0.9rem;
                              font-family: $BarlowCodensed;
                              text-transform: uppercase;
-                             color: grey;
+                             color: rgb(180, 177, 177);
                          }
                      }
                  }
@@ -273,7 +273,7 @@ Body {
          letter-spacing: 3px;
 
          span {
-             color: grey;
+             color: rgb(180, 177, 177);
          }
      }
 
@@ -360,7 +360,7 @@ Body {
          letter-spacing: 3px;
 
          span {
-             color: grey;
+             color: rgb(180, 177, 177);
          }
      }
 
@@ -409,7 +409,7 @@ Body {
 
                  span {
                      text-transform: uppercase;
-                     opacity: 80%;
+                     color: rgb(180, 177, 177);
                  }
 
                  h1 {
@@ -421,7 +421,7 @@ Body {
 
                  p {
                      width: 80%;
-                     opacity: 90%;
+                     color: rgb(180, 177, 177);
                  }
              }
 
@@ -526,6 +526,7 @@ Body {
         flex-wrap: nowrap;
         flex-direction: column;
         justify-content: center;
+        text-align: center;
         column-gap: 20px;
         margin: auto;
 
@@ -552,6 +553,7 @@ Body {
     .destination {
         padding: 140px 5%;
         width: 100vw;
+        text-align: center;
 
         .tabs_container {
             grid-template-columns: auto;
@@ -572,10 +574,9 @@ Body {
                 .tabs_bloc {
                     align-items: center;
                     justify-content: center;
-                    gap: 40px;
 
                     .tabs {
-                        padding: 20px 15px;
+                        padding: 20px 10px;
 
                         &::after {
                             top: 20px;
@@ -606,6 +607,7 @@ Body {
     .crew {
         padding: 150px 5%;
         width: 100vw;
+        text-align: center;
 
         .crew_container {
             flex-direction: column-reverse;

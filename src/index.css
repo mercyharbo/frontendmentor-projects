@@ -141,7 +141,7 @@ Body {
   letter-spacing: 3px;
 }
 .destination h3 span {
-  color: grey;
+  color: #b4b1b1;
 }
 .destination .tabs_container {
   display: -ms-grid;
@@ -208,7 +208,7 @@ Body {
   line-height: 2;
 }
 .destination .tabs_container .content .content_tabs hr {
-  opacity: 50%;
+  color: #b4b1b1;
   margin: 5% 0 0 0;
 }
 .destination .tabs_container .content .content_tabs .footer {
@@ -234,7 +234,7 @@ Body {
   font-size: 0.9rem;
   font-family: "Barlow Condensed", sans-serif;
   text-transform: uppercase;
-  color: grey;
+  color: #b4b1b1;
 }
 .destination .tabs_container .content .active_content {
   display: block;
@@ -249,7 +249,7 @@ Body {
   letter-spacing: 3px;
 }
 .crew h3 span {
-  color: grey;
+  color: #b4b1b1;
 }
 .crew .crew_container {
   display: -webkit-box;
@@ -329,7 +329,7 @@ Body {
   letter-spacing: 3px;
 }
 .technology h3 span {
-  color: grey;
+  color: #b4b1b1;
 }
 .technology .tech_container {
   display: -webkit-box;
@@ -387,7 +387,7 @@ Body {
 }
 .technology .tech_container .content_wrapper .content span {
   text-transform: uppercase;
-  opacity: 80%;
+  color: #b4b1b1;
 }
 .technology .tech_container .content_wrapper .content h1 {
   text-transform: uppercase;
@@ -397,7 +397,7 @@ Body {
 }
 .technology .tech_container .content_wrapper .content p {
   width: 80%;
-  opacity: 90%;
+  color: #b4b1b1;
 }
 .technology .tech_container .content_wrapper .active_content {
   display: block;
@@ -508,6 +508,7 @@ Body {
     -webkit-box-pack: center;
         -ms-flex-pack: center;
             justify-content: center;
+    text-align: center;
     -webkit-column-gap: 20px;
        -moz-column-gap: 20px;
             column-gap: 20px;
@@ -532,6 +533,7 @@ Body {
   .destination {
     padding: 140px 5%;
     width: 100vw;
+    text-align: center;
   }
   .destination .tabs_container {
     -ms-grid-columns: auto;
@@ -563,10 +565,9 @@ Body {
     -webkit-box-pack: center;
         -ms-flex-pack: center;
             justify-content: center;
-    gap: 40px;
   }
   .destination .tabs_container .content .tabs_bloc .tabs {
-    padding: 20px 15px;
+    padding: 20px 10px;
   }
   .destination .tabs_container .content .tabs_bloc .tabs::after {
     top: 20px;
@@ -592,6 +593,7 @@ Body {
   .crew {
     padding: 150px 5%;
     width: 100vw;
+    text-align: center;
   }
   .crew .crew_container {
     -webkit-box-orient: vertical;
