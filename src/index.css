@@ -498,7 +498,7 @@ Body {
 
   .hero {
     padding-top: 170px;
-    width: 100%;
+    width: 100vw;
     -ms-flex-wrap: nowrap;
         flex-wrap: nowrap;
     -webkit-box-orient: vertical;
@@ -520,13 +520,23 @@ Body {
   .hero .content_design {
     width: 100%;
     padding: 50px 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    margin: auto;
   }
   .hero .content_design h1 {
     right: 0;
-    left: 80px;
+    left: 0;
   }
   .hero p {
-    max-width: 350px;
+    width: 100%;
     text-align: center;
   }
 

@@ -522,7 +522,7 @@ Body {
 
     .hero {
         padding-top: 170px;
-        width: 100%;
+        width: 100vw;
         flex-wrap: nowrap;
         flex-direction: column;
         justify-content: center;
@@ -537,15 +537,19 @@ Body {
         .content_design {
             width: 100%;
             padding: 50px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: auto;
 
             h1 {
                 right: 0;
-                left: 80px;
+                left: 0;
             }
         }
 
         p {
-            max-width: 350px;
+            width: 100%;
             text-align: center;
         }
     }
