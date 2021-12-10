@@ -527,11 +527,15 @@ Body {
         flex-direction: column;
         justify-content: center;
         text-align: center;
-        column-gap: 20px;
         margin: auto;
 
         .content {
             width: 100%;
+
+            p {
+                width: 100%;
+                text-align: center;
+            }
         }
 
         .content_design {
@@ -546,11 +550,6 @@ Body {
                 right: 0;
                 left: 0;
             }
-        }
-
-        p {
-            width: 100%;
-            text-align: center;
         }
     }
 

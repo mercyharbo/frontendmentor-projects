@@ -509,13 +509,14 @@ Body {
         -ms-flex-pack: center;
             justify-content: center;
     text-align: center;
-    -webkit-column-gap: 20px;
-       -moz-column-gap: 20px;
-            column-gap: 20px;
     margin: auto;
   }
   .hero .content {
     width: 100%;
+  }
+  .hero .content p {
+    width: 100%;
+    text-align: center;
   }
   .hero .content_design {
     width: 100%;
@@ -534,10 +535,6 @@ Body {
   .hero .content_design h1 {
     right: 0;
     left: 0;
-  }
-  .hero p {
-    width: 100%;
-    text-align: center;
   }
 
   .destination {
