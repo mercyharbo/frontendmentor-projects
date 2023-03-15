@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+
+.dark {
+  @apply dark:bg-gray-900 dark:text-gray-100;
+}
+
+@media (prefers-color-scheme: dark) {
+  .dark\:bg-white {
+    background-color: #fff;
+  }
+
+  .dark\:text-black {
+    color: #000;
+  }
+}
+
+@tailwind utilities;
