@@ -140,7 +140,7 @@ export default function Home() {
                         alt={`Flag of ${country.name.common}`}
                         width={100}
                         height={100}
-                        className='min-w-full h-[150px] rounded-t-lg'
+                        className='w-full h-[150px] rounded-t-lg'
                       />
 
                       <div className='px-5 flex flex-col gap-2 py-3'>
