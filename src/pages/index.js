@@ -25,7 +25,7 @@ export default function Home() {
       setLoading(false)
     }
     fetchCountries()
-  }, [])
+  }, [dispatch])
 
   const getFiltered = () => {
     if (!regionFilter) {

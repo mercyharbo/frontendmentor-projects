@@ -1,8 +1,9 @@
 import Head from 'next/head'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTheme } from 'next-themes'
-import { useEffect, useState } from 'react'
+
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -28,7 +29,7 @@ export default function CountryDetails() {
     }
 
     fetchCountryDetails()
-  }, [router.query.cca3])
+  }, [dispatch, router.query.cca3])
 
   if (!data) {
     return (
@@ -194,9 +195,10 @@ export default function CountryDetails() {
               <p className='font-bold flex flex-row gap-4'>
                 Border Countries:
                 <div className='flex lg:flex-row lg:gap-5 justify-center items-center'>
-                  {data?.borders.map((x) => {
+                  {data?.borders.map((x, key) => {
                     return (
                       <Link
+                        key={key}
                         href={`/countrydetails/${x}`}
                         className='font-medium border-[1px] border-gray-300 rounded-md text-[12px] lg:h-[25px] lg:w-[60px] flex justify-center items-center '
                       >
