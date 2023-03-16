@@ -1,4 +1,4 @@
-# Frontend Mentor - REST Countries API with color theme switcher solution
+# Frontend Mentor - Intro section solution
 
 This is a solution to the [Intro Section challenge on Frontend Mentor]. Frontend Mentor challenges help you improve your coding skills by building realistic projects.
 
