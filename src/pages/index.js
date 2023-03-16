@@ -119,7 +119,7 @@ export default function Home() {
             </span>
 
             <section
-              className='xl:grid xl:grid-cols-5 xl:gap-3 xl:px-10 lg:grid lg:grid-cols-5 lg:gap-5 lg:p-10 lg:justify-center lg:items-center md:grid
+              className='xl:grid xl:grid-cols-4 xl:gap-3 xl:px-10 lg:grid lg:grid-cols-4 lg:gap-5 lg:p-10 lg:justify-center lg:items-center md:grid
             md:grid-cols-2 md:gap-4 md:justify-center md:items-center md:p-10 sm:grid sm:grid-cols-1 sm:justify-center sm:items-center sm:p-5  '
             >
               {filteredList
