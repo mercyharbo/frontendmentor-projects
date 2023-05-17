@@ -4,7 +4,7 @@ import { icons } from 'react-icons'
 import { useRouter } from 'next/router'
 import { RiSearchLine } from 'react-icons/ri'
 
-function Header({ activePage }) {
+export default function Header({ activePage }) {
   const router = useRouter()
 
   function handleRefresh() {
@@ -89,4 +89,4 @@ function Header({ activePage }) {
   )
 }
 
-export default Header
+

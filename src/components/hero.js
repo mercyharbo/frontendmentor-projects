@@ -38,7 +38,7 @@ const categories = [
   'Arts & Culture',
 ]
 
-const Hero = () => {
+export default function Hero() {
   const [activeOption, setActiveOption] = useState(viewOptions[0])
   const categoriesRef = useRef(null)
   const [wallpaperUrl, setWallpaperUrl] = useState('')
@@ -77,44 +77,44 @@ fetching 10 photos per page and appending them to the `photos` state array using
 function. The `page` variable is used to determine which page of photos to fetch. The
 `Authorization` header is included in the fetch request to authenticate the API access using an
 access key. The `useEffect` hook is triggered whenever the `page` variable changes. */
-  useEffect(() => {
-    setIsLoading(true)
-    fetch(`https://api.unsplash.com/photos/?page=${page}&per_page=10`, {
-      headers: {
-        Authorization: `Client-ID ${process.env.UNSPLASH_KEY}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setPhotos((prevPhotos) => [...prevPhotos, ...data])
-        setIsLoading(false)
-      })
-  }, [page])
+  // useEffect(() => {
+  //   setIsLoading(true)
+  //   fetch(`https://api.unsplash.com/photos/?page=${page}&per_page=10`, {
+  //     headers: {
+  //       Authorization: `Client-ID ${process.env.UNSPLASH_KEY}`,
+  //     },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setPhotos((prevPhotos) => [...prevPhotos, ...data])
+  //       setIsLoading(false)
+  //     })
+  // }, [page])
 
   /* The above code is a React useEffect hook that fetches details of a selected image from the Unsplash
 API. It sets the loading state to true, makes a GET request to the API endpoint for the selected
 image using the access key, and then sets the selected image details state with the response data.
 Finally, it sets the loading state to false. The useEffect hook is triggered whenever the
 selectedImg state changes. */
-  useEffect(() => {
-    const fetchImgDetails = async () => {
-      if (selectedImg) {
-        setLoading(true)
-        const response = await fetch(
-          `https://api.unsplash.com/photos/${selectedImg}/`,
-          {
-            headers: {
-              Authorization: `Client-ID ${process.env.UNSPLASH_KEY}`,
-            },
-          }
-        )
-        const data = await response.json()
-        setSelectedImgDetails(data)
-        setLoading(false)
-      }
-    }
-    fetchImgDetails()
-  }, [selectedImg])
+  // useEffect(() => {
+  //   const fetchImgDetails = async () => {
+  //     if (selectedImg) {
+  //       setLoading(true)
+  //       const response = await fetch(
+  //         `https://api.unsplash.com/photos/${selectedImg}/`,
+  //         {
+  //           headers: {
+  //             Authorization: `Client-ID ${process.env.UNSPLASH_KEY}`,
+  //           },
+  //         }
+  //       )
+  //       const data = await response.json()
+  //       setSelectedImgDetails(data)
+  //       setLoading(false)
+  //     }
+  //   }
+  //   fetchImgDetails()
+  // }, [selectedImg])
 
   // console.log(selectedImgDetails, 'as selected details')
 
@@ -378,5 +378,3 @@ selectedImg state changes. */
     </main>
   )
 }
-
-export default Hero
