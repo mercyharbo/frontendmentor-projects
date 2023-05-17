@@ -282,6 +282,7 @@ selectedImg state changes. */
                   <div className='author flex flex-row justify-center items-center gap-2'>
                     <Image
                       src={selectedImgDetails?.user?.profile_image?.large}
+                      alt='photo'
                       width={500}
                       height={500}
                       quality={100}
