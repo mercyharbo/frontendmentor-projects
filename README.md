@@ -1,65 +1,38 @@
-# Frontend Mentor - Intro section solution
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-This is a solution to the [Intro Section challenge on Frontend Mentor]. Frontend Mentor challenges help you improve your coding skills by building realistic projects.
+## Getting Started
 
-## Table of contents
+First, run the development server:
 
-- [Overview](#overview)
-  - [The challenge](#the-challenge)
-  - [Screenshot](#screenshot)
-  - [Links](#links)
-- [My process](#my-process)
-  - [Built with](#built-with)
-- [Author](#author)
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+```
 
-**Note: Delete this note and update the table of contents based on what sections you keep.**
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Overview
+You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
-### The challenge
+[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
 
-Users should be able to:
+The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-- See all countries from the API on the homepage
-- Search for a country using an `input` field
-- Filter countries by region
-- Click on a country to see more detailed information on a separate page
-- Click through to the border countries on the detail page
-- Toggle the color scheme between light and dark mode _(optional)_
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-### Screenshot
+## Learn More
 
-![image.png](image.png)
+To learn more about Next.js, take a look at the following resources:
 
-Add a screenshot of your solution. The easiest way to do this is to use Firefox to view your project, right-click the page and select "Take a Screenshot". You can choose either a full-height screenshot or a cropped one based on how long the page is. If it's very long, it might be best to crop it.
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-Alternatively, you can use a tool like [FireShot](https://getfireshot.com/) to take the screenshot. FireShot has a free option, so you don't need to purchase it.
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-Then crop/optimize/edit your image however you like, add it to your project, and update the file path in the image above.
+## Deploy on Vercel
 
-**Note: Delete this note and the paragraphs above when you add your screenshot. If you prefer not to add a screenshot, feel free to remove this entire section.**
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-### Links
-
-- Solution URL: [GitHub](https://github.com/mercyharbo/frontendmentor-projects/tree/intro-section)
-- Live Site URL: [Intro-section Landing Page](https://introsectionsite.netlify.app/)
-
-## My process
-
-### Built with
-
-- Semantic HTML5 markup
-- CSS custom properties
-- Flexbox
-- CSS Grid
-- Mobile-first workflow
-- [React](https://reactjs.org/) - JS library
-- [Next.js](https://nextjs.org/) - React framework
-- Tailwind CSS - For styles
-
-## Author
-
-<!-- - Website - [Add your name here](https://www.your-site.com) -->
-
-- Frontend Mentor - [@mercyharbo](https://www.frontendmentor.io/profile/mercyharbo)
-- Twitter - [@codewithmercy](https://www.twitter.com/codewithmercy)
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
