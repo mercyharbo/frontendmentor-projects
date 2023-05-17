@@ -245,6 +245,7 @@ selectedImg state changes. */
               <div className='bg-gray-200 relative' key={img.id}>
                 <Image
                   src={img.urls?.regular}
+                  alt='photos'
                   width={1000}
                   height={1000}
                   className={`lg:w-full lg:h-full object-cover cursor-pointer ${
