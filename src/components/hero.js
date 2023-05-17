@@ -197,14 +197,16 @@ selectedImg state changes. */
       </div>
 
       <div className='relative'>
-        <Image
-          src={wallpaperUrl}
-          width={1000}
-          height={1000}
-          alt={data.alt_description}
-          className='lg:w-full lg:h-[600px] md:h-[400px] md:w-full sm:h-[250px] object-cover '
-          quality={100}
-        />
+        {wallpaperUrl && (
+          <Image
+            src={wallpaperUrl}
+            alt={data.alt_description || 'Wallpaper'}
+            width={1000}
+            height={1000}
+            quality={100}
+            className='lg:w-full lg:h-[600px] md:h-[400px] md:w-full sm:h-[250px] object-cover'
+          />
+        )}
         {categoryPrams === 'wallpaper' && (
           <section
             className='flex flex-col justify-center lg:items-start lg:p-20 md:p-20 md:items-start sm:p-5 sm:items-start gap-5 
@@ -242,7 +244,7 @@ selectedImg state changes. */
         >
           {photos.map((img, index) => {
             return (
-              <div className='bg-gray-200 relative' key={img.id}>
+              <div className='bg-gray-200 relative' key={index}>
                 <Image
                   src={img.urls?.regular}
                   alt='photos'
