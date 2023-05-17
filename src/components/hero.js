@@ -324,19 +324,21 @@ selectedImg state changes. */
                     </div>
                   </div>
                 </div>
-                <Image
-                  src={selectedImgDetails?.urls?.full}
-                  alt={selectedImgDetails?.alt_description}
-                  width={500}
-                  height={500}
-                  quality={100}
-                  className={`object-contain ${
-                    selectedImgDetails?.width > selectedImgDetails?.height
-                      ? 'lg:h-[80%] w-full md:h-[80%] '
-                      : 'w-auto lg:h-[80%] md:h-[80%] '
-                  }`}
-                  onLoad={() => setLoading(false)}
-                />
+                {selectedImgDetails && (
+                  <Image
+                    src={selectedImgDetails?.urls?.full}
+                    alt={selectedImgDetails?.alt_description || 'Picture'}
+                    width={500}
+                    height={500}
+                    quality={100}
+                    className={`object-contain ${
+                      selectedImgDetails?.width > selectedImgDetails?.height
+                        ? 'lg:h-[80%] w-full md:h-[80%] '
+                        : 'w-auto lg:h-[80%] md:h-[80%] '
+                    }`}
+                    onLoad={() => setLoading(false)}
+                  />
+                )}
                 <div className='flex justify-between items-center px-10 py-4 w-full'>
                   <div className='grid grid-cols-3 gap-14'>
                     <div className=''>
