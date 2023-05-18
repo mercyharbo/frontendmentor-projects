@@ -47,8 +47,11 @@ export default function Hero() {
 
   const [selectedImg, setSelectedImg] = useState(null)
   const [selectedImgDetails, setSelectedImgDetails] = useState(null)
+
   const [loading, setLoading] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [isFailed, setIsFailed] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   const fetchRandomPhoto = async (category) => {
     const response = await fetch(
@@ -73,9 +76,17 @@ export default function Hero() {
         },
       }
     )
-    const data = await response.json()
-    setPhotos([...photos, ...data])
-    setIsLoading(false)
+
+    if (response.ok) {
+      const data = await response.json()
+      setPhotos([...photos, ...data])
+      setIsFailed(false)
+      setIsLoading(false)
+    } else {
+      setErrorMessage('Failed to load photos')
+      setIsFailed(true)
+      setIsLoading(false)
+    }
   }
 
   useEffect(() => {
@@ -255,42 +266,52 @@ selectedImg state changes. */
         )}
       </div>
 
-      {isLoading ? (
-        <span className=''> Loading... </span>
-      ) : (
-        <div className='flex flex-col justify-center items-center gap-5 py-5'>
-          <section
-            className='grid grid-cols-1 lg:grid-cols-4 lg:gap-4 lg:w-[90%] lg:mx-auto lg:p-14 md:grid-cols-2 md:w-full md:p-10 md:gap-4 sm:grid-cols-1 
+      <div className=''>
+        {isLoading && (
+          <h1 className='flex justify-center items-center text-center lg:py-14 lg:text-5xl md:py-10 md:text-4xl sm:py-8 sm:text-3xl  '>
+            Loading...
+          </h1>
+        )}
+        {isFailed && (
+          <h1 className='flex justify-center items-center text-center lg:py-14 lg:text-5xl md:py-10 md:text-4xl sm:py-8 sm:text-3xl  '>
+            {errorMessage}
+          </h1>
+        )}
+        {!isLoading && !isFailed && (
+          <div className='flex flex-col justify-center items-center gap-5 py-5'>
+            <section
+              className='grid grid-cols-1 lg:grid-cols-4 lg:gap-4 lg:w-[90%] lg:mx-auto lg:p-14 md:grid-cols-2 md:w-full md:p-10 md:gap-4 sm:grid-cols-1 
         sm:p-0 sm:py-14 sm:gap-20  '
-          >
-            {photos.map((img, index) => {
-              return (
-                <div className='bg-gray-200 relative' key={index}>
-                  <Image
-                    src={img.urls?.regular}
-                    alt='photos'
-                    width={1000}
-                    height={1000}
-                    className={`lg:w-full lg:h-full object-cover cursor-pointer ${
-                      img.width > img.height
-                        ? 'lg:aspect-w-2 lg:aspect-h-3 md:w-full md:h-full sm:w-full sm:h-full'
-                        : 'lg:aspect-w-3 lg:aspect-h-2 md:w-full md:h-full sm:w-full sm:h-full'
-                    }`}
-                    onClick={() => handleImgClick(img.id)}
-                  />
-                  <div className='hover:absolute hover:top-0 hover:left-0 hover:h-full hover:w-full hover:bg-[#00000095] '></div>
-                </div>
-              )
-            })}
-          </section>
-          <button
-            onClick={handleLoadMore}
-            className='h-[50px] w-[150px] rounded-lg flex justify-center items-center bg-slate-950 text-white font-semibold '
-          >
-            Load More{' '}
-          </button>
-        </div>
-      )}
+            >
+              {photos.map((img, index) => {
+                return (
+                  <div className='bg-gray-200 relative' key={index}>
+                    <Image
+                      src={img.urls?.regular}
+                      alt='photos'
+                      width={1000}
+                      height={1000}
+                      className={`lg:w-full lg:h-full object-cover cursor-pointer ${
+                        img.width > img.height
+                          ? 'lg:aspect-w-2 lg:aspect-h-3 md:w-full md:h-full sm:w-full sm:h-full'
+                          : 'lg:aspect-w-3 lg:aspect-h-2 md:w-full md:h-full sm:w-full sm:h-full'
+                      }`}
+                      onClick={() => handleImgClick(img.id)}
+                    />
+                    <div className='hover:absolute hover:top-0 hover:left-0 hover:h-full hover:w-full hover:bg-[#00000095] '></div>
+                  </div>
+                )
+              })}
+            </section>
+            <button
+              onClick={handleLoadMore}
+              className='h-[50px] w-[150px] rounded-lg flex justify-center items-center bg-slate-950 text-white font-semibold '
+            >
+              Load More{' '}
+            </button>
+          </div>
+        )}
+      </div>
 
       {selectedImg && (
         <>
