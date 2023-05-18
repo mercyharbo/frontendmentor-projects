@@ -1,18 +1,18 @@
 const { useState, useRef, useEffect } = require('react')
 
 import Image from 'next/image'
-import {
-  FaArrowDown,
-  FaChevronDown,
-  FaLongArrowAltDown,
-  FaPlus,
-} from 'react-icons/fa'
-import {
-  RiArrowLeftSLine,
-  RiArrowRightSLine,
-  RiHeart2Fill,
-  RiHeartFill,
-} from 'react-icons/ri'
+// import {
+//   FaArrowDown,
+//   FaChevronDown,
+//   FaLongArrowAltDown,
+//   FaPlus,
+// } from 'react-icons/fa'
+// import {
+//   RiArrowLeftSLine,
+//   RiArrowRightSLine,
+//   RiHeart2Fill,
+//   RiHeartFill,
+// } from 'react-icons/ri'
 
 const viewOptions = ['Editorial', 'Following']
 
@@ -51,26 +51,27 @@ export default function Hero() {
   const [loading, setLoading] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
+  const fetchRandomPhoto = async (category) => {
+    const response = await fetch(
+      `https://api.unsplash.com/photos/random?query=${category}`,
+      {
+        headers: {
+          Authorization: `Client-ID ${process.env.UNSPLASH_KEY}`,
+        },
+      }
+    )
+    const data = await response.json()
+    setWallpaperUrl(data.urls.regular)
+  }
+
+  useEffect(() => {
+    fetchRandomPhoto(categoryPrams)
+  }, [])
+
   const handleImgClick = (imgUrl) => {
     setSelectedImg(imgUrl)
   }
 
-  useEffect(() => {
-    const apiUrl = `https://api.unsplash.com/photos/random?query=${categoryPrams}`
-
-    fetch(apiUrl, {
-      headers: {
-        Authorization: `Client-ID ${process.env.UNSPLASH_KEY}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        const url = data.urls?.full
-        setWallpaperUrl(url)
-        setData(data)
-      })
-      .catch((error) => console.error(error))
-  }, [categoryPrams])
 
   /* The above code is using the `useEffect` hook in React to fetch photos from the Unsplash API. It is
 fetching 10 photos per page and appending them to the `photos` state array using the `setPhotos`
@@ -166,7 +167,7 @@ selectedImg state changes. */
             className='text-gray-500 hover:text-gray-800 focus:outline-none w-[20px] '
             onClick={handleScrollLeft}
           >
-            <RiArrowLeftSLine className='h-5 w-5' />
+            {/* <RiArrowLeftSLine className='h-5 w-5' /> */}
           </button>
           <div
             className='flex flex-row overflow-hidden py-2 lg:space-x-2lg:gap-5 md:space-x-2 md:gap-4 sm:gap-2 sm:space-x-1 '
@@ -191,7 +192,7 @@ selectedImg state changes. */
             className='text-gray-500 hover:text-gray-800 focus:outline-none w-[20px] '
             onClick={handleScrollRight}
           >
-            <RiArrowRightSLine className='h-5 w-5' />
+            {/* <RiArrowRightSLine className='h-5 w-5' /> */}
           </button>
         </div>
       </div>
@@ -309,17 +310,17 @@ selectedImg state changes. */
 
                   <div className='btns flex flex-row justify-center items-center lg:gap-2 md:gap-5'>
                     <button className='lg:h-[40px] w-auto lg:px-4 md:h-[50px] md:px-4 rounded-lg border-[1px] border-gray-400 '>
-                      <RiHeartFill />
+                      {/* <RiHeartFill /> */}
                     </button>
                     <button className='lg:h-[40px] w-auto lg:px-4 md:h-[50px] md:px-4 rounded-lg border-[1px] border-gray-400 '>
-                      <FaPlus />
+                      {/* <FaPlus /> */}
                     </button>
                     <div className='flex relative'>
                       <button className='lg:h-[40px] lg:w-[140px] lg:px-5 md:h-[50px] md:w-[150px] md:pl-3 rounded-lg flex flex-row justify-start items-center border-[1px] border-gray-400  '>
                         Download
                       </button>
                       <button className='border-l-[1px] border-gray-400 absolute top-0 right-0 h-full w-[40px] flex justify-center items-center '>
-                        <FaChevronDown />
+                        {/* <FaChevronDown /> */}
                       </button>
                     </div>
                   </div>

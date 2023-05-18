@@ -1,4 +1,4 @@
-const { default: Header } = require('./header')
+import Header from './header'
 
 const Layout = ({ children }) => {
   return (
