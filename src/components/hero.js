@@ -281,7 +281,7 @@ selectedImg state changes. */
           <div className='flex flex-col justify-center items-center gap-5 py-5'>
             <section
               className='grid grid-cols-1 lg:grid-cols-4 lg:gap-4 lg:w-[90%] lg:mx-auto lg:p-14 md:grid-cols-2 md:w-full md:p-10 md:gap-4 sm:grid-cols-1 
-        sm:p-0 sm:py-14 sm:gap-20  '
+              sm:p-0 sm:py-8 sm:gap-14  '
             >
               {photos.map((img, index) => {
                 return (
@@ -304,10 +304,13 @@ selectedImg state changes. */
               })}
             </section>
             <button
-              onClick={handleLoadMore}
+              onClick={() => {
+                setIsLoading(true)
+                fetchPhotos()
+              }}
               className='h-[50px] w-[150px] rounded-lg flex justify-center items-center bg-slate-950 text-white font-semibold '
             >
-              Load More{' '}
+              {isLoading ? 'Loading...' : 'Load More'}
             </button>
           </div>
         )}
