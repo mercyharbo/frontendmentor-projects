@@ -40,8 +40,11 @@ export default function Hero() {
   const [wallpaperUrl, setWallpaperUrl] = useState('')
   const [data, setData] = useState([])
   const [categoryPrams, setCategoryParams] = useState('wallpaper')
-  const [photos, setPhotos] = useState([])
+
+  const perPage = 10
   const [page, setPage] = useState(1)
+  const [photos, setPhotos] = useState([])
+
   const [selectedImg, setSelectedImg] = useState(null)
   const [selectedImgDetails, setSelectedImgDetails] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -63,7 +66,7 @@ export default function Hero() {
   const fetchPhotos = async () => {
     setIsLoading(true)
     const response = await fetch(
-      `https://api.unsplash.com/photos/?per_page=10`,
+      `https://api.unsplash.com/photos/?per_page=${perPage}&page=${page}`,
       {
         headers: {
           Authorization: `Client-ID ${process.env.UNSPLASH_KEY}`,
@@ -71,7 +74,7 @@ export default function Hero() {
       }
     )
     const data = await response.json()
-    setPhotos(data)
+    setPhotos([...photos, ...data])
     setIsLoading(false)
   }
 
@@ -79,6 +82,11 @@ export default function Hero() {
     fetchPhotos()
     fetchRandomPhoto(categoryPrams)
   }, [categoryPrams])
+
+  const handleLoadMore = () => {
+    setPage(page + 1)
+    fetchPhotos()
+  }
 
   const handleImgClick = (imgUrl) => {
     setSelectedImg(imgUrl)
@@ -208,18 +216,16 @@ selectedImg state changes. */
         </div>
       </div>
 
-      <div className='relative'>
+      <div className='relative lg:h-[600px] md:h-[400px] sm:h-[250px]'>
         {wallpaperUrl && (
-          <div className='w-full lg:h-[600px] md:h-[400px] sm:h-[250px]  '>
-            <Image
-              src={wallpaperUrl}
-              alt={data.alt_description || 'Wallpaper'}
-              width={1000}
-              height={1000}
-              quality={100}
-              className='w-full lg:h-[600px] md:h-[400px] sm:h-[250px] object-fit'
-            />
-          </div>
+          <Image
+            src={wallpaperUrl}
+            alt={data.alt_description || 'Wallpaper'}
+            width={1000}
+            height={1000}
+            quality={100}
+            className='w-full lg:h-[600px] md:h-[400px] sm:h-[250px] object-fit'
+          />
         )}
         {categoryPrams === 'wallpaper' && (
           <section
@@ -252,30 +258,38 @@ selectedImg state changes. */
       {isLoading ? (
         <span className=''> Loading... </span>
       ) : (
-        <section
-          className='grid grid-cols-1 lg:grid-cols-4 lg:gap-4 lg:w-[90%] lg:mx-auto lg:p-14 md:grid-cols-2 md:w-full md:p-10 md:gap-4 sm:grid-cols-1 
+        <div className='flex flex-col justify-center items-center gap-5 py-5'>
+          <section
+            className='grid grid-cols-1 lg:grid-cols-4 lg:gap-4 lg:w-[90%] lg:mx-auto lg:p-14 md:grid-cols-2 md:w-full md:p-10 md:gap-4 sm:grid-cols-1 
         sm:p-0 sm:py-14 sm:gap-20  '
-        >
-          {photos.map((img, index) => {
-            return (
-              <div className='bg-gray-200 relative' key={index}>
-                <Image
-                  src={img.urls?.regular}
-                  alt='photos'
-                  width={1000}
-                  height={1000}
-                  className={`lg:w-full lg:h-full object-cover cursor-pointer ${
-                    img.width > img.height
-                      ? 'lg:aspect-w-2 lg:aspect-h-3 md:w-full md:h-full sm:w-full sm:h-full'
-                      : 'lg:aspect-w-3 lg:aspect-h-2 md:w-full md:h-full sm:w-full sm:h-full'
-                  }`}
-                  onClick={() => handleImgClick(img.id)}
-                />
-                <div className='hover:absolute hover:top-0 hover:left-0 hover:h-full hover:w-full hover:bg-[#00000095] '></div>
-              </div>
-            )
-          })}
-        </section>
+          >
+            {photos.map((img, index) => {
+              return (
+                <div className='bg-gray-200 relative' key={index}>
+                  <Image
+                    src={img.urls?.regular}
+                    alt='photos'
+                    width={1000}
+                    height={1000}
+                    className={`lg:w-full lg:h-full object-cover cursor-pointer ${
+                      img.width > img.height
+                        ? 'lg:aspect-w-2 lg:aspect-h-3 md:w-full md:h-full sm:w-full sm:h-full'
+                        : 'lg:aspect-w-3 lg:aspect-h-2 md:w-full md:h-full sm:w-full sm:h-full'
+                    }`}
+                    onClick={() => handleImgClick(img.id)}
+                  />
+                  <div className='hover:absolute hover:top-0 hover:left-0 hover:h-full hover:w-full hover:bg-[#00000095] '></div>
+                </div>
+              )
+            })}
+          </section>
+          <button
+            onClick={handleLoadMore}
+            className='h-[50px] w-[150px] rounded-lg flex justify-center items-center bg-slate-950 text-white font-semibold '
+          >
+            Load More{' '}
+          </button>
+        </div>
       )}
 
       {selectedImg && (
