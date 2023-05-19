@@ -39,11 +39,11 @@ export default function Hero() {
   const categoriesRef = useRef(null)
   const [wallpaperUrl, setWallpaperUrl] = useState('')
   const [data, setData] = useState([])
-  const [categoryPrams, setCategoryParams] = useState('wallpaper')
 
   const perPage = 10
   const [page, setPage] = useState(1)
   const [photos, setPhotos] = useState([])
+  const [categoryParams, setCategoryParams] = useState('wallpaper')
 
   const [selectedImg, setSelectedImg] = useState(null)
   const [selectedImgDetails, setSelectedImgDetails] = useState(null)
@@ -69,7 +69,7 @@ export default function Hero() {
   const fetchPhotos = async () => {
     setIsLoading(true)
     const response = await fetch(
-      `https://api.unsplash.com/photos/?per_page=${perPage}&page=${page}`,
+      `https://api.unsplash.com/search/photos/?query=${categoryParams}&per_page=${perPage}&page=${page}`,
       {
         headers: {
           Authorization: `Client-ID ${process.env.UNSPLASH_KEY}`,
@@ -79,7 +79,7 @@ export default function Hero() {
 
     if (response.ok) {
       const data = await response.json()
-      setPhotos([...photos, ...data])
+      setPhotos([...photos, ...data.results])
       setIsFailed(false)
       setIsLoading(false)
     } else {
@@ -91,36 +91,12 @@ export default function Hero() {
 
   useEffect(() => {
     fetchPhotos()
-    fetchRandomPhoto(categoryPrams)
-  }, [categoryPrams])
-
-  const handleLoadMore = () => {
-    setPage(page + 1)
-    fetchPhotos()
-  }
+    fetchRandomPhoto(categoryParams)
+  }, [categoryParams])
 
   const handleImgClick = (imgUrl) => {
     setSelectedImg(imgUrl)
   }
-
-  /* The above code is using the `useEffect` hook in React to fetch photos from the Unsplash API. It is
-fetching 10 photos per page and appending them to the `photos` state array using the `setPhotos`
-function. The `page` variable is used to determine which page of photos to fetch. The
-`Authorization` header is included in the fetch request to authenticate the API access using an
-access key. The `useEffect` hook is triggered whenever the `page` variable changes. */
-  // useEffect(() => {
-  //   setIsLoading(true)
-  //   fetch(`https://api.unsplash.com/photos/?page=${page}&per_page=10`, {
-  //     headers: {
-  //       Authorization: `Client-ID ${process.env.UNSPLASH_KEY}`,
-  //     },
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setPhotos((prevPhotos) => [...prevPhotos, ...data])
-  //       setIsLoading(false)
-  //     })
-  // }, [page])
 
   /* The above code is a React useEffect hook that fetches details of a selected image from the Unsplash
 API. It sets the loading state to true, makes a GET request to the API endpoint for the selected
@@ -157,24 +133,6 @@ selectedImg state changes. */
     categoriesRef.current.scrollLeft += 100
   }
 
-  /**
-   * The function checks if the user has scrolled to the bottom of the page and updates the page number
-   * accordingly.
-   */
-  const handleScroll = () => {
-    const windowHeight = window.innerHeight
-    const documentHeight = document.documentElement.scrollHeight
-    const scrollTop = document.documentElement.scrollTop
-    if (windowHeight + scrollTop >= documentHeight) {
-      setPage((prevPage) => prevPage + 1)
-    }
-  }
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
   return (
     <main className='w-full'>
       <div className='flex flex-row justify-between items-center lg:px-10 md:px-10 sm:px-5 divide-x divide-gray-300  '>
@@ -207,7 +165,7 @@ selectedImg state changes. */
               <button
                 key={category}
                 className={
-                  categoryPrams === category
+                  categoryParams === category
                     ? 'text-gray-500 font-medium border-b-2 border-black capitalize '
                     : 'text-gray-500 text-sm font-medium capitalize '
                 }
@@ -238,7 +196,7 @@ selectedImg state changes. */
             className='w-full lg:h-[600px] md:h-[400px] sm:h-[250px] object-fit'
           />
         )}
-        {categoryPrams === 'wallpaper' && (
+        {categoryParams === 'wallpaper' && (
           <section
             className='flex flex-col justify-center lg:items-start lg:p-20 md:p-20 md:items-start sm:p-5 sm:items-start gap-5 
           absolute top-0 bg-[#0000007c] h-full w-full text-white'
@@ -259,7 +217,7 @@ selectedImg state changes. */
               {' '}
               Submit to{' '}
               <span className='font-medium text-black '>
-                {categoryPrams}
+                {categoryParams}
               </span>{' '}
             </button>
           </section>
