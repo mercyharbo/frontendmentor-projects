@@ -9,9 +9,36 @@ import {
   faCircleUser,
   faSearch,
 } from '@fortawesome/free-solid-svg-icons'
+import { useDispatch, useSelector } from 'react-redux'
+import { setSearchInput, setSearchResults } from '@/store/searchSlice'
 
 export default function Header({ activePage }) {
   const router = useRouter()
+  const dispatch = useDispatch()
+
+  const searchResults = useSelector((state) => state.searchSlice.searchResults)
+
+  const searchHandler = async (e) => {
+    const query = e.target.value.trim() // Remove leading/trailing white spaces
+    dispatch(setSearchInput(query))
+
+    try {
+      const response = await fetch(
+        `https://api.unsplash.com/search/photos?client_id=${
+          process.env.UNSPLASH_KEY
+        }&query=${encodeURIComponent(query)}`
+      )
+
+      if (response.ok) {
+        const data = await response.json()
+        dispatch(setSearchResults(data.results))
+      } else {
+        console.error('API request failed', error)
+      }
+    } catch (error) {
+      console.error('API request failed', error)
+    }
+  }
 
   function handleRefresh() {
     router.reload()
@@ -40,6 +67,7 @@ export default function Header({ activePage }) {
               type='text'
               name='search'
               id='search'
+              onChange={searchHandler}
               placeholder='Search high-resolution images'
               className='w-full rounded-full indent-4 text-sm bg-gray-200 lg:indent-14 lg:h-[50px] md:h-[40px] md:indent-14 sm:h-[40px] px-5 '
             />

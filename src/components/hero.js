@@ -1,4 +1,6 @@
 const { useState, useRef, useEffect } = require('react')
+import Image from 'next/image'
+import { useSelector } from 'react-redux'
 
 import {
   faChevronDown,
@@ -8,7 +10,7 @@ import {
   faPlus,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Image from 'next/image'
+import { setSearchInput, setSearchResults } from '@/store/searchSlice'
 
 const viewOptions = ['Editorial', 'Following']
 
@@ -53,6 +55,9 @@ export default function Hero() {
   const [isFailed, setIsFailed] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
 
+  const searchInput = useSelector((state) => state.searchSlice.searchInput)
+  const searchResults = useSelector((state) => state.searchSlice.searchResults)
+
   const fetchRandomPhoto = async (category) => {
     const response = await fetch(
       `https://api.unsplash.com/photos/random?query=${category}`,
@@ -88,6 +93,8 @@ export default function Hero() {
       setIsLoading(false)
     }
   }
+
+
 
   useEffect(() => {
     fetchPhotos()
@@ -241,25 +248,45 @@ selectedImg state changes. */
               className='grid grid-cols-1 lg:grid-cols-4 lg:gap-4 lg:w-[90%] lg:mx-auto lg:p-14 md:grid-cols-2 md:w-full md:p-10 md:gap-4 sm:grid-cols-1 
               sm:p-0 sm:py-8 sm:gap-14  '
             >
-              {photos.map((img, index) => {
-                return (
-                  <div className='bg-gray-200 relative' key={index}>
-                    <Image
-                      src={img.urls?.regular}
-                      alt='photos'
-                      width={1000}
-                      height={1000}
-                      className={`lg:w-full lg:h-full object-cover cursor-pointer ${
-                        img.width > img.height
-                          ? 'lg:aspect-w-2 lg:aspect-h-3 md:w-full md:h-full sm:w-full sm:h-full'
-                          : 'lg:aspect-w-3 lg:aspect-h-2 md:w-full md:h-full sm:w-full sm:h-full'
-                      }`}
-                      onClick={() => handleImgClick(img.id)}
-                    />
-                    <div className='hover:absolute hover:top-0 hover:left-0 hover:h-full hover:w-full hover:bg-[#00000095] '></div>
-                  </div>
-                )
-              })}
+              {searchInput.length > 0 && searchResults.length > 0
+                ? searchResults.map((img, index) => {
+                    return (
+                      <div className='bg-gray-200 relative' key={index}>
+                        <Image
+                          src={img.urls?.regular}
+                          alt='photos'
+                          width={1000}
+                          height={1000}
+                          className={`lg:w-full lg:h-full object-cover cursor-pointer ${
+                            img.width > img.height
+                              ? 'lg:aspect-w-2 lg:aspect-h-3 md:w-full md:h-full sm:w-full sm:h-full'
+                              : 'lg:aspect-w-3 lg:aspect-h-2 md:w-full md:h-full sm:w-full sm:h-full'
+                          }`}
+                          onClick={() => handleImgClick(img.id)}
+                        />
+                        <div className='hover:absolute hover:top-0 hover:left-0 hover:h-full hover:w-full hover:bg-[#00000095] '></div>
+                      </div>
+                    )
+                  })
+                : photos.map((img, index) => {
+                    return (
+                      <div className='bg-gray-200 relative' key={index}>
+                        <Image
+                          src={img.urls?.regular}
+                          alt='photos'
+                          width={1000}
+                          height={1000}
+                          className={`lg:w-full lg:h-full object-cover cursor-pointer ${
+                            img.width > img.height
+                              ? 'lg:aspect-w-2 lg:aspect-h-3 md:w-full md:h-full sm:w-full sm:h-full'
+                              : 'lg:aspect-w-3 lg:aspect-h-2 md:w-full md:h-full sm:w-full sm:h-full'
+                          }`}
+                          onClick={() => handleImgClick(img.id)}
+                        />
+                        <div className='hover:absolute hover:top-0 hover:left-0 hover:h-full hover:w-full hover:bg-[#00000095] '></div>
+                      </div>
+                    )
+                  })}
             </section>
             <button
               onClick={() => {
