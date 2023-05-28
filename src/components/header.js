@@ -9,14 +9,15 @@ import {
   faCircleUser,
   faSearch,
 } from '@fortawesome/free-solid-svg-icons'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { setSearchInput, setSearchResults } from '@/store/searchSlice'
+import { useEffect, useState } from 'react'
 
 export default function Header({ activePage }) {
   const router = useRouter()
   const dispatch = useDispatch()
-
-  const searchResults = useSelector((state) => state.searchSlice.searchResults)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(0)
 
   const searchHandler = async (e) => {
     const query = e.target.value.trim() // Remove leading/trailing white spaces
@@ -26,12 +27,19 @@ export default function Header({ activePage }) {
       const response = await fetch(
         `https://api.unsplash.com/search/photos?client_id=${
           process.env.UNSPLASH_KEY
-        }&query=${encodeURIComponent(query)}`
+        }&query=${encodeURIComponent(query)}&page=${currentPage}&per_page=10`
       )
 
       if (response.ok) {
         const data = await response.json()
-        dispatch(setSearchResults(data.results))
+        if (currentPage === 1) {
+          setTotalPages(data.total_pages)
+          dispatch(setSearchResults(data.results))
+        } else {
+          dispatch(
+            setSearchResults((prevResults) => [...prevResults, ...data.results])
+          )
+        }
       } else {
         console.error('API request failed', error)
       }
@@ -39,6 +47,32 @@ export default function Header({ activePage }) {
       console.error('API request failed', error)
     }
   }
+
+  const loadMorePhotos = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1)
+      searchHandler()
+    }
+  }
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const photosContainer = document.getElementById('photosContainer')
+      if (
+        photosContainer.scrollTop + photosContainer.clientHeight >=
+        photosContainer.scrollHeight
+      ) {
+        loadMorePhotos()
+      }
+    }
+
+    const photosContainer = document.getElementById('photosContainer')
+    photosContainer?.addEventListener('scroll', handleScroll)
+
+    return () => {
+      photosContainer?.removeEventListener('scroll', handleScroll)
+    }
+  }, [currentPage, totalPages])
 
   function handleRefresh() {
     router.reload()

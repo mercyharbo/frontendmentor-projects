@@ -1,16 +1,25 @@
 const { useState, useRef, useEffect } = require('react')
 import Image from 'next/image'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import {
   faChevronDown,
   faChevronLeft,
   faChevronRight,
+  faCircleExclamation,
+  faEllipsis,
+  faExclamation,
   faHeart,
   faPlus,
+  faShare,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { setSearchInput, setSearchResults } from '@/store/searchSlice'
+import {
+  setSelectedImg,
+  setSelectedPhotos,
+  setSelectedPhotosDetails,
+} from '@/store/photosSlice'
 
 const viewOptions = ['Editorial', 'Following']
 
@@ -37,6 +46,7 @@ const categories = [
 ]
 
 export default function Hero() {
+  const dispatch = useDispatch()
   const [activeOption, setActiveOption] = useState(viewOptions[0])
   const categoriesRef = useRef(null)
   const [wallpaperUrl, setWallpaperUrl] = useState('')
@@ -47,8 +57,11 @@ export default function Hero() {
   const [photos, setPhotos] = useState([])
   const [categoryParams, setCategoryParams] = useState('wallpaper')
 
-  const [selectedImg, setSelectedImg] = useState(null)
-  const [selectedImgDetails, setSelectedImgDetails] = useState(null)
+  // const [selectedImg, setSelectedImg] = useState(null)
+  // const [selectedImgDetails, setSelectedImgDetails] = useState(null)
+
+  //MODAL
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const [loading, setLoading] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -57,6 +70,10 @@ export default function Hero() {
 
   const searchInput = useSelector((state) => state.searchSlice.searchInput)
   const searchResults = useSelector((state) => state.searchSlice.searchResults)
+  const selectedImg = useSelector((state) => state.photosSlice.selectedImg)
+  const selectedImgDetails = useSelector(
+    (state) => state.photosSlice.selectedPhotoDetails
+  )
 
   const fetchRandomPhoto = async (category) => {
     const response = await fetch(
@@ -87,6 +104,7 @@ export default function Hero() {
       setPhotos([...photos, ...data.results])
       setIsFailed(false)
       setIsLoading(false)
+      setPage((prevPage) => prevPage + 1)
     } else {
       setErrorMessage('Failed to load photos')
       setIsFailed(true)
@@ -94,15 +112,30 @@ export default function Hero() {
     }
   }
 
-
-
   useEffect(() => {
     fetchPhotos()
     fetchRandomPhoto(categoryParams)
   }, [categoryParams])
 
-  const handleImgClick = (imgUrl) => {
-    setSelectedImg(imgUrl)
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth
+      console.log(width, 'as width...')
+      const isDesktopOrTablet = width > 768
+      if (!isDesktopOrTablet && isModalOpen) {
+        setIsModalOpen(false)
+      }
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [isModalOpen])
+
+  const loadMore = () => {
+    setIsLoading(true)
+    fetchPhotos()
   }
 
   /* The above code is a React useEffect hook that fetches details of a selected image from the Unsplash
@@ -110,28 +143,39 @@ API. It sets the loading state to true, makes a GET request to the API endpoint 
 image using the access key, and then sets the selected image details state with the response data.
 Finally, it sets the loading state to false. The useEffect hook is triggered whenever the
 selectedImg state changes. */
-  // useEffect(() => {
-  //   const fetchImgDetails = async () => {
-  //     if (selectedImg) {
-  //       setLoading(true)
-  //       const response = await fetch(
-  //         `https://api.unsplash.com/photos/${selectedImg}/`,
-  //         {
-  //           headers: {
-  //             Authorization: `Client-ID ${process.env.UNSPLASH_KEY}`,
-  //           },
-  //         }
-  //       )
-  //       const data = await response.json()
-  //       setSelectedImgDetails(data)
-  //       setLoading(false)
-  //     }
-  //   }
-  //   fetchImgDetails()
-  // }, [selectedImg])
+  useEffect(() => {
+    const fetchImgDetails = async () => {
+      if (selectedImg) {
+        setLoading(true)
+        const response = await fetch(
+          `https://api.unsplash.com/photos/${selectedImg}/`,
+          {
+            headers: {
+              Authorization: `Client-ID ${process.env.UNSPLASH_KEY}`,
+            },
+          }
+        )
+        const data = await response.json()
+        dispatch(setSelectedPhotosDetails(data))
+        setLoading(false)
+      }
+    }
+    fetchImgDetails()
+  }, [selectedImg])
 
-  // console.log(selectedImgDetails, 'as selected details')
+  const handleImgClick = (imgUrl) => {
+    const width = window.innerWidth
+    const isDesktopOrTablet = width > 768
+    if (isDesktopOrTablet) {
+      dispatch(setSelectedImg(imgUrl))
+      setIsModalOpen(true)
+    }
+  }
 
+  /**
+   * These are two functions that handle scrolling left and right on a categories reference element in a
+   * React component.
+   */
   const handleScrollLeft = () => {
     categoriesRef.current.scrollLeft -= 100
   }
@@ -192,7 +236,7 @@ selectedImg state changes. */
         </div>
       </div>
 
-      <div className='relative lg:h-[600px] md:h-[400px] sm:h-[250px]'>
+      <div className='relative 2xl:h-[700px] lg:h-[600px] md:h-[400px] sm:h-[250px]'>
         {wallpaperUrl && (
           <Image
             src={wallpaperUrl}
@@ -200,7 +244,7 @@ selectedImg state changes. */
             width={1000}
             height={1000}
             quality={100}
-            className='w-full lg:h-[600px] md:h-[400px] sm:h-[250px] object-fit'
+            className='w-full 2xl:h-[700px] lg:h-[600px] md:h-[400px] sm:h-[250px] object-fit'
           />
         )}
         {categoryParams === 'wallpaper' && (
@@ -289,10 +333,7 @@ selectedImg state changes. */
                   })}
             </section>
             <button
-              onClick={() => {
-                setIsLoading(true)
-                fetchPhotos()
-              }}
+              onClick={loadMore}
               className='h-[50px] w-[150px] rounded-lg flex justify-center items-center bg-slate-950 text-white font-semibold '
             >
               {isLoading ? 'Loading...' : 'Load More'}
@@ -301,117 +342,114 @@ selectedImg state changes. */
         )}
       </div>
 
-      {selectedImg && (
+      {selectedImg && !loading ? (
         <>
           <div
             className='fixed inset-0 z-40 bg-black opacity-75'
-            onClick={() => setSelectedImg(null)}
+            onClick={() => dispatch(setSelectedImg(null))}
           ></div>
           <section
             className='modal xl:h-[90%] lg:h-[90%] lg:w-[80%] md:w-[90%] md:h-[70%] md:left-1/2 sm:w-full sm:h-[70%] 
             m-auto flex flex-col justify-center items-center rounded-lg fixed top-1/2 lg:left-1/2 transform -translate-x-1/2 
             -translate-y-1/2 z-50 bg-white py-5'
-            onClick={() => setSelectedImg(null)}
+            onClick={() => dispatch(setSelectedImg(null))}
           >
-            {loading ? (
-              <div className='text-center'>Loading...</div>
-            ) : (
-              <>
-                <div className='flex justify-between items-center px-10 py-4 w-full'>
-                  <div className='author flex flex-row justify-center items-center gap-2'>
-                    <Image
-                      src={selectedImgDetails?.user?.profile_image?.large}
-                      alt='photo'
-                      width={500}
-                      height={500}
-                      quality={100}
-                      className='rounded-full w-[60px] h-[60px] '
-                    />
-                    <div className='flex flex-col'>
-                      <h4 className=''>
-                        {selectedImgDetails?.user?.first_name}{' '}
-                        {selectedImgDetails?.user?.last_name}{' '}
-                      </h4>
-                      {selectedImgDetails?.user?.for_hire === true ? (
-                        <span className='text-blue-500 text-base'>
-                          Available for hire{' '}
-                        </span>
-                      ) : (
-                        <span className='text-gray-400 text-base'>
-                          Not available for hire{' '}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className='btns flex flex-row justify-center items-center lg:gap-2 md:gap-5'>
-                    <button className='lg:h-[40px] w-auto lg:px-4 md:h-[50px] md:px-4 rounded-lg border-[1px] border-gray-400 '>
-                      <FontAwesomeIcon icon={faHeart} />
-                    </button>
-                    <button className='lg:h-[40px] w-auto lg:px-4 md:h-[50px] md:px-4 rounded-lg border-[1px] border-gray-400 '>
-                      <FontAwesomeIcon icon={faPlus} />
-                    </button>
-                    <div className='flex relative'>
-                      <button className='lg:h-[40px] lg:w-[140px] lg:px-5 md:h-[50px] md:w-[150px] md:pl-3 rounded-lg flex flex-row justify-start items-center border-[1px] border-gray-400  '>
-                        Download
-                      </button>
-                      <button className='border-l-[1px] border-gray-400 absolute top-0 right-0 h-full w-[40px] flex justify-center items-center '>
-                        <FontAwesomeIcon icon={faChevronDown} />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                {selectedImgDetails && (
+            <>
+              <div className='flex justify-between items-center px-10 py-4 w-full'>
+                <div className='author flex flex-row justify-center items-center gap-2'>
                   <Image
-                    src={selectedImgDetails?.urls?.full}
-                    alt={selectedImgDetails?.alt_description || 'Picture'}
+                    src={selectedImgDetails?.user?.profile_image?.large}
+                    alt='photo'
                     width={500}
                     height={500}
                     quality={100}
-                    className={`object-contain ${
-                      selectedImgDetails?.width > selectedImgDetails?.height
-                        ? 'lg:h-[80%] w-full md:h-[80%] '
-                        : 'w-auto lg:h-[80%] md:h-[80%] '
-                    }`}
-                    onLoad={() => setLoading(false)}
+                    className='rounded-full w-[60px] h-[60px] '
                   />
-                )}
-                <div className='flex justify-between items-center px-10 py-4 w-full'>
-                  <div className='grid grid-cols-3 gap-14'>
-                    <div className=''>
-                      <span className='text-gray-400 text-sm'>Views</span>
-                      <p className='font-lg'> {selectedImgDetails?.views}</p>
-                    </div>
-                    <div className=''>
-                      <span className='text-gray-400 text-sm'>Downloads</span>
-                      <p className='font-lg'>
-                        {' '}
-                        {selectedImgDetails?.downloads}{' '}
-                      </p>
-                    </div>
-                    <div className=''>
-                      <span className='text-gray-400 text-sm'>Featured in</span>
-                      <p className='font-lg'> featured in</p>
-                    </div>
+                  <div className='flex flex-col'>
+                    <h4 className=''>
+                      {selectedImgDetails?.user?.first_name}{' '}
+                      {selectedImgDetails?.user?.last_name}{' '}
+                    </h4>
+                    {selectedImgDetails?.user?.for_hire === true ? (
+                      <span className='text-blue-500 text-sm'>
+                        Available for hire{' '}
+                      </span>
+                    ) : (
+                      <span className='text-gray-400 text-base'>
+                        Not available for hire{' '}
+                      </span>
+                    )}
                   </div>
+                </div>
 
-                  <div className='flex flex-row gap-2 justify-center items-center'>
-                    <button className='lg:h-[40px] lg:w-[130px] lg:px-5 rounded-lg '>
-                      share btn
+                <div className='btns flex flex-row justify-center items-center lg:gap-2 md:gap-5'>
+                  <button className='lg:h-[40px] w-auto lg:px-4 md:h-[50px] md:px-4 rounded-lg border-[1px] border-gray-400 '>
+                    <FontAwesomeIcon icon={faHeart} />
+                  </button>
+                  <button className='lg:h-[40px] w-auto lg:px-4 md:h-[50px] md:px-4 rounded-lg border-[1px] border-gray-400 '>
+                    <FontAwesomeIcon icon={faPlus} />
+                  </button>
+                  <div className='flex relative'>
+                    <button className='lg:h-[40px] lg:w-[140px] lg:px-5 md:h-[50px] md:w-[150px] md:pl-3 rounded-lg flex flex-row justify-start items-center border-[1px] border-gray-400  '>
+                      Download
                     </button>
-                    <button className='lg:h-[40px] lg:w-[130px] lg:px-5 rounded-lg '>
-                      info
-                    </button>
-                    <button className='lg:h-[40px] lg:w-[130px] lg:px-5 rounded-lg '>
-                      dots
+                    <button className='border-l-[1px] border-gray-400 absolute top-0 right-0 h-full w-[40px] flex justify-center items-center '>
+                      <FontAwesomeIcon icon={faChevronDown} />
                     </button>
                   </div>
                 </div>
-              </>
-            )}
+              </div>
+
+              {selectedImgDetails && (
+                <Image
+                  src={selectedImgDetails?.urls?.full}
+                  alt={selectedImgDetails?.alt_description || 'Picture'}
+                  width={500}
+                  height={500}
+                  quality={100}
+                  className={`object-contain ${
+                    selectedImgDetails?.width > selectedImgDetails?.height
+                      ? 'lg:h-[80%] w-full md:h-[80%] '
+                      : 'w-auto lg:h-[80%] md:h-[80%] '
+                  }`}
+                  onLoad={() => setLoading(false)}
+                />
+              )}
+
+              <div className='flex justify-between items-center px-10 py-4 w-full'>
+                <div className='grid grid-cols-3 gap-14'>
+                  <div className=''>
+                    <span className='text-gray-400 text-sm'>Views</span>
+                    <p className='font-lg'> {selectedImgDetails?.views}</p>
+                  </div>
+                  <div className=''>
+                    <span className='text-gray-400 text-sm'>Downloads</span>
+                    <p className='font-lg'> {selectedImgDetails?.downloads} </p>
+                  </div>
+                  <div className=''>
+                    <span className='text-gray-400 text-sm'>Featured in</span>
+                    <p className='font-lg'> featured in</p>
+                  </div>
+                </div>
+
+                <div className='flex flex-row gap-2 justify-center items-center'>
+                  <button className='lg:h-[40px] lg:w-[120px] lg:px-5 rounded-lg flex justify-center items-center gap-3 border p-2 '>
+                    <FontAwesomeIcon icon={faShare} />
+                    <span className=''>Share</span>
+                  </button>
+                  <button className='lg:h-[40px] lg:w-[120px] lg:px-5 rounded-lg flex justify-center items-center gap-3  border p-2 '>
+                    <FontAwesomeIcon icon={faCircleExclamation} />
+                    <span className=''>Share</span>
+                  </button>
+                  <button className='lg:h-[40px] lg:w-[50px] lg:px-5 rounded-lg border flex justify-center items-center '>
+                    <FontAwesomeIcon icon={faEllipsis} />
+                  </button>
+                </div>
+              </div>
+            </>
           </section>
         </>
-      )}
+      ) : null}
     </main>
   )
 }
