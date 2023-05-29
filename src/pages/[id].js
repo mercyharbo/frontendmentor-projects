@@ -27,7 +27,6 @@ const PhotoDetails = () => {
   const dispatch = useDispatch()
 
   const selectedImg = useSelector((state) => state.photosSlice.selectedImg)
-  const isModalOpen = useSelector((state) => state.photosSlice.isModalOpen)
   const isLoading = useSelector((state) => state.photosSlice.isLoading)
   const selectedImgDetails = useSelector(
     (state) => state.photosSlice.selectedPhotoDetails
@@ -54,31 +53,15 @@ selectedImg state changes. */
     fetchImgDetails()
   }, [id, dispatch, selectedImg])
 
-  useEffect(() => {
-    const handleResize = () => {
-      const width = window.innerWidth
-
-      const isDesktopOrTablet = width > 768
-      if (!isDesktopOrTablet && isModalOpen) {
-        dispatch(setIsModalOpen(false))
-      }
-    }
-
-    window.addEventListener('resize', handleResize)
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [isModalOpen, dispatch])
-
   const formatDate = (dateString) => {
     const options = { month: 'long', day: 'numeric', year: 'numeric' }
     const date = new Date(dateString)
     return date.toLocaleDateString('en-US', options)
   }
 
-  // if (isLoading === true) {
-  //   return <p className='text-2xl p-4'>Loading...</p>
-  // }
+  if (isLoading === true) {
+    return <p className='text-2xl p-4'>Loading...</p>
+  }
 
   return (
     <Layout>
@@ -142,15 +125,15 @@ selectedImg state changes. */
         </div>
 
         <Image
-          src={selectedImgDetails?.urls?.full}
+          src={selectedImgDetails?.urls?.full || ''}
           alt={selectedImgDetails?.alt_description || 'Picture'}
           width={1000}
           height={1000}
           quality={100}
           className={`object-contain ${
             selectedImgDetails?.width > selectedImgDetails?.height
-              ? '2xl:h-[45rem] lg:h-[40rem] md:h-[80%] sm:h-auto w-auto mx-auto '
-              : '2xl:h-[45rem] lg:h-[40rem] md:h-[80%] sm:h-auto w-auto mx-auto '
+              ? 'aspect-w-2 aspect-h-3 lg:w-full lg:h-full md:w-full md:h-full sm:w-full sm:h-full'
+              : 'aspect-w-3 aspect-h-2 lg:w-full lg:h-full md:w-full md:h-full sm:w-full sm:h-full'
           }`}
           onLoad={() => dispatch(setIsLoading(false))}
         />
@@ -210,7 +193,7 @@ selectedImg state changes. */
             return (
               <Link key={img.id} href={`/${img.id}`}>
                 <Image
-                  src={img?.preview_photos?.[0]?.urls?.regular}
+                  src={img?.preview_photos?.[0]?.urls?.full || ''}
                   alt={img?.preview_photos?.[0]?.alt_description || 'Picture'}
                   width={1000}
                   height={1000}

@@ -116,21 +116,6 @@ export default function Hero() {
     fetchRandomPhoto(categoryParams)
   }, [categoryParams])
 
-  // useEffect(() => {
-  //   const handleResize = () => {
-  //     const width = window.innerWidth
-  //     console.log(width, 'as width...')
-  //     const isDesktopOrTablet = width > 768
-  //     if (!isDesktopOrTablet && isModalOpen) {
-  //       setIsModalOpen(false)
-  //     }
-  //   }
-
-  //   window.addEventListener('resize', handleResize)
-  //   return () => {
-  //     window.removeEventListener('resize', handleResize)
-  //   }
-  // }, [isModalOpen])
 
   const loadMore = () => {
     setIsLoading(true)
@@ -138,12 +123,8 @@ export default function Hero() {
   }
 
   const handleImgClick = (imgId) => {
-    const width = window.innerWidth
-    const isDesktopOrTablet = width > 768
-    if (isDesktopOrTablet) {
-      dispatch(setSelectedImg(imgId))
-      dispatch(setIsModalOpen(true))
-    }
+     dispatch(setSelectedImg(imgId))
+     dispatch(setIsModalOpen(true))
   }
 
   /**
@@ -160,12 +141,12 @@ export default function Hero() {
 
   return (
     <main className='w-full'>
-      <div className='flex flex-row justify-between items-center lg:px-10 md:px-10 sm:px-5 divide-x divide-gray-300  '>
+      <div className='flex flex-row justify-between items-center lg:px-10 md:px-10 sm:px-5 divide-x divide-gray-300 py-3  '>
         <div className='flex flex-row lg:gap-5 md:gap-4 sm:gap-2'>
           {viewOptions.map((option) => (
             <button
               key={option}
-              className={`lg:px-2 md:px-2 sm:px-1 font-medium ${
+              className={`lg:px-2 md:px-2 sm:px-1 font-medium lg:text-base md:text-base sm:text-sm ${
                 activeOption === option ? 'text-gray-800' : 'text-gray-500'
               }`}
               onClick={() => setActiveOption(option)}
@@ -175,7 +156,7 @@ export default function Hero() {
           ))}
         </div>
 
-        <div className='flex flex-row items-center lg:gap-8 overflow-hidden lg:px-4 md:px-4 md:gap-5 sm:gap-4 sm:px-1 '>
+        <div className='flex flex-row items-center lg:gap-8 overflow-hidden lg:px-4 md:px-4 md:gap-5 sm:gap-2 sm:px-1 '>
           <button
             className='text-gray-500 hover:text-gray-800 focus:outline-none w-[20px] '
             onClick={handleScrollLeft}
@@ -191,7 +172,7 @@ export default function Hero() {
                 key={category}
                 className={
                   categoryParams === category
-                    ? 'text-gray-500 font-medium border-b-2 border-black capitalize '
+                    ? 'text-gray-500 font-medium border-b-2 border-black capitalize lg:text-base md:text-base sm:text-sm '
                     : 'text-gray-500 text-sm font-medium capitalize '
                 }
                 style={{ whiteSpace: 'nowrap' }}
@@ -218,7 +199,7 @@ export default function Hero() {
             width={1000}
             height={1000}
             quality={100}
-            className='w-full 2xl:h-[700px] lg:h-[600px] md:h-[400px] sm:h-[250px] object-fit'
+            className='w-full 2xl:h-[700px] lg:h-[600px] md:h-[400px] sm:h-[300px] object-fit'
           />
         )}
         {categoryParams === 'wallpaper' && (
@@ -261,10 +242,10 @@ export default function Hero() {
           </h1>
         )}
         {!isLoading && !isFailed && (
-          <div className='flex flex-col justify-center items-center gap-5 py-5'>
+          <div className='flex flex-col justify-center items-center gap-5 py-8'>
             <section
               className='grid grid-cols-1 lg:grid-cols-4 lg:gap-4 lg:w-[90%] lg:mx-auto lg:p-14 md:grid-cols-2 md:w-full md:p-10 md:gap-4 sm:grid-cols-1 
-              sm:p-0 sm:py-8 sm:gap-14  '
+              sm:p-0 sm:py-10 sm:gap-14  '
             >
               {searchInput.length > 0 && searchResults.length > 0
                 ? searchResults.map((img, index) => {
