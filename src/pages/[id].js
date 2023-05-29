@@ -52,7 +52,7 @@ selectedImg state changes. */
       }
     }
     fetchImgDetails()
-  }, [id, dispatch, selectedImg ])
+  }, [id, dispatch, selectedImg])
 
   useEffect(() => {
     const handleResize = () => {
@@ -75,6 +75,10 @@ selectedImg state changes. */
     const date = new Date(dateString)
     return date.toLocaleDateString('en-US', options)
   }
+
+  // if (isLoading === true) {
+  //   return <p className='text-2xl p-4'>Loading...</p>
+  // }
 
   return (
     <Layout>
@@ -137,21 +141,19 @@ selectedImg state changes. */
           </div>
         </div>
 
-        {selectedImgDetails && (
-          <Image
-            src={selectedImgDetails?.urls?.full}
-            alt={selectedImgDetails?.alt_description || 'Picture'}
-            width={1000}
-            height={1000}
-            quality={100}
-            className={`object-contain ${
-              selectedImgDetails?.width > selectedImgDetails?.height
-                ? '2xl:h-[45rem] lg:h-[40rem] md:h-[80%] sm:h-auto w-auto mx-auto '
-                : '2xl:h-[45rem] lg:h-[40rem] md:h-[80%] sm:h-auto w-auto mx-auto '
-            }`}
-            onLoad={() => dispatch(setIsLoading(true))}
-          />
-        )}
+        <Image
+          src={selectedImgDetails?.urls?.full}
+          alt={selectedImgDetails?.alt_description || 'Picture'}
+          width={1000}
+          height={1000}
+          quality={100}
+          className={`object-contain ${
+            selectedImgDetails?.width > selectedImgDetails?.height
+              ? '2xl:h-[45rem] lg:h-[40rem] md:h-[80%] sm:h-auto w-auto mx-auto '
+              : '2xl:h-[45rem] lg:h-[40rem] md:h-[80%] sm:h-auto w-auto mx-auto '
+          }`}
+          onLoad={() => dispatch(setIsLoading(false))}
+        />
 
         <div className='flex justify-between items-start lg:px-10 sm:px-5 py-6 w-full'>
           <div className='grid lg:grid-cols-3 lg:gap-14 md:grid-cols-3 md:gap-5 sm:grid-cols-1 sm:gap-5'>
