@@ -52,7 +52,7 @@ selectedImg state changes. */
       }
     }
     fetchImgDetails()
-  }, [id])
+  }, [id, dispatch, selectedImg ])
 
   useEffect(() => {
     const handleResize = () => {
@@ -68,7 +68,7 @@ selectedImg state changes. */
     return () => {
       window.removeEventListener('resize', handleResize)
     }
-  }, [isModalOpen])
+  }, [isModalOpen, dispatch])
 
   const formatDate = (dateString) => {
     const options = { month: 'long', day: 'numeric', year: 'numeric' }
@@ -146,8 +146,8 @@ selectedImg state changes. */
             quality={100}
             className={`object-contain ${
               selectedImgDetails?.width > selectedImgDetails?.height
-                ? 'lg:h-[80%] md:h-[80%] sm:h-auto mx-auto '
-                : 'lg:h-[80%] md:h-[80%] sm:h-auto mx-auto '
+                ? '2xl:h-[45rem] lg:h-[40rem] md:h-[80%] sm:h-auto w-auto mx-auto '
+                : '2xl:h-[45rem] lg:h-[40rem] md:h-[80%] sm:h-auto w-auto mx-auto '
             }`}
             onLoad={() => dispatch(setIsLoading(true))}
           />
@@ -201,7 +201,7 @@ selectedImg state changes. */
         </div>
 
         <article
-          className='mx-auto grid grid-cols-1 lg:grid-cols-4 lg:gap-4 lg:w-[90%] lg:mx-auto lg:p-14 md:grid-cols-2 md:w-full md:p-10 md:gap-4 sm:grid-cols-1 
+          className='grid grid-cols-1 lg:grid-cols-4 lg:gap-4 lg:w-[90%] lg:mx-auto lg:p-14 md:grid-cols-2 md:w-full md:p-10 md:gap-4 sm:grid-cols-1 
               sm:p-0 sm:py-8 sm:gap-14'
         >
           {selectedImgDetails?.related_collections?.results?.map((img) => {
