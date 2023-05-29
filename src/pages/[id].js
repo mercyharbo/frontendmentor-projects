@@ -206,9 +206,8 @@ selectedImg state changes. */
         >
           {selectedImgDetails?.related_collections?.results?.map((img) => {
             return (
-              <Link href={`/${img.id}`}>
+              <Link key={img.id} href={`/${img.id}`}>
                 <Image
-                  key={img.id}
                   src={img?.preview_photos?.[0]?.urls?.regular}
                   alt={img?.preview_photos?.[0]?.alt_description || 'Picture'}
                   width={1000}
