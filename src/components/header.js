@@ -12,12 +12,15 @@ import {
 import { useDispatch } from 'react-redux'
 import { setSearchInput, setSearchResults } from '@/store/searchSlice'
 import { useEffect, useState } from 'react'
+import ToggleMenu from './toggleMenu'
 
 export default function Header({ activePage }) {
   const router = useRouter()
   const dispatch = useDispatch()
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(0)
+
+  const [menuBars, setMenuBars] = useState(false)
 
   const searchHandler = async (e) => {
     const query = e.target.value.trim() // Remove leading/trailing white spaces
@@ -161,12 +164,13 @@ export default function Header({ activePage }) {
             style={{ fontSize: 30, color: 'grey' }}
           />
         </div>
-        <button className=''>
+        <button onClick={() => setMenuBars(true)}>
           {' '}
           <FontAwesomeIcon
             icon={faBars}
             style={{ fontSize: 20, color: 'grey' }}
           />
+          {menuBars && <ToggleMenu />}
         </button>
       </section>
     </main>

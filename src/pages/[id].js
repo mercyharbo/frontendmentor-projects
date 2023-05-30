@@ -59,7 +59,7 @@ selectedImg state changes. */
     return date.toLocaleDateString('en-US', options)
   }
 
-  if (isLoading === true) {
+  if (isLoading) {
     return <p className='text-2xl p-4'>Loading...</p>
   }
 

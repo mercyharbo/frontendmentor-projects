@@ -7,10 +7,12 @@ import {
   faChevronLeft,
   faChevronRight,
   faCircleExclamation,
+  faDownload,
   faEllipsis,
   faExclamation,
   faHeart,
   faPlus,
+  faPlusSquare,
   faShare,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -59,20 +61,14 @@ export default function Hero() {
   const [photos, setPhotos] = useState([])
   const [categoryParams, setCategoryParams] = useState('wallpaper')
 
-  //MODAL
-  // const [isModalOpen, setIsModalOpen] = useState(false)
-
-  const [loading, setLoading] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [isFailed, setIsFailed] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
 
+  const [showOverlay, setShowOverlay] = useState(false)
+
   const searchInput = useSelector((state) => state.searchSlice.searchInput)
   const searchResults = useSelector((state) => state.searchSlice.searchResults)
-  const selectedImg = useSelector((state) => state.photosSlice.selectedImg)
-  const selectedImgDetails = useSelector(
-    (state) => state.photosSlice.selectedPhotoDetails
-  )
 
   const fetchRandomPhoto = async (category) => {
     const response = await fetch(
@@ -116,15 +112,14 @@ export default function Hero() {
     fetchRandomPhoto(categoryParams)
   }, [categoryParams])
 
-
   const loadMore = () => {
     setIsLoading(true)
     fetchPhotos()
   }
 
   const handleImgClick = (imgId) => {
-     dispatch(setSelectedImg(imgId))
-     dispatch(setIsModalOpen(true))
+    dispatch(setSelectedImg(imgId))
+    dispatch(setIsModalOpen(true))
   }
 
   /**
@@ -269,23 +264,70 @@ export default function Hero() {
                   })
                 : photos.map((img, index) => {
                     return (
-                      <div className='bg-gray-200 relative' key={index}>
-                        <Link href={`/${img.id}`}>
-                          <Image
-                            src={img.urls?.regular}
-                            alt='photos'
-                            width={1000}
-                            height={1000}
-                            className={`lg:w-full lg:h-full object-cover cursor-pointer ${
-                              img.width > img.height
-                                ? 'lg:aspect-w-2 lg:aspect-h-3 md:w-full md:h-full sm:w-full sm:h-full'
-                                : 'lg:aspect-w-3 lg:aspect-h-2 md:w-full md:h-full sm:w-full sm:h-full'
-                            }`}
-                            onClick={() => handleImgClick(img.id)}
-                          />
-                        </Link>
-                        <div className='hover:absolute hover:top-0 hover:left-0 hover:h-full hover:w-full hover:bg-[#00000095] '></div>
-                      </div>
+                      <Link
+                        href={`/${img.id}`}
+                        onMouseOver={() => setShowOverlay(img.id)}
+                        onMouseOut={() => setShowOverlay(null)}
+                        onClick={() => handleImgClick(img.id)}
+                        className='bg-gray-200 relative'
+                        key={index}
+                      >
+                        <Image
+                          src={img.urls?.regular}
+                          alt='photos'
+                          width={1000}
+                          height={1000}
+                          className={`lg:w-full lg:h-full object-cover cursor-pointer ${
+                            img.width > img.height
+                              ? 'lg:aspect-w-2 lg:aspect-h-3 md:w-full md:h-full sm:w-full sm:h-full'
+                              : 'lg:aspect-w-3 lg:aspect-h-2 md:w-full md:h-full sm:w-full sm:h-full'
+                          }`}
+                        />
+
+                        {showOverlay === img.id && (
+                          <div className='absolute top-0 left-0 w-full h-full bg-[#00000054] flex flex-col justify-between z-10 '>
+                            <div className='flex gap-4 ml-auto p-4'>
+                              <button className='w-[40px] h-[40px] rounded-lg flex justify-center items-center p-2 bg-white font-medium '>
+                                <FontAwesomeIcon icon={faHeart} />
+                              </button>
+                              <button className='w-[40px] h-[40px] rounded-lg flex justify-center items-center p-2 bg-white font-medium '>
+                                <FontAwesomeIcon icon={faPlusSquare} />
+                              </button>
+                            </div>
+
+                            <div className='flex justify-between items-center p-3'>
+                              <div className='flex flex-row justify-start items-center gap-2'>
+                                <Image
+                                  src={img?.user?.profile_image?.large}
+                                  alt='photo'
+                                  width={500}
+                                  height={500}
+                                  quality={100}
+                                  className='lg:w-[40px] lg:h-[40px] sm:w-[40px] sm:h-[40px] rounded-full shadow-2xl border border-black '
+                                />
+                                <div className='flex flex-col'>
+                                  <h4 className='text-sm text-white'>
+                                    {img?.user?.first_name}{' '}
+                                    {img?.user?.last_name}{' '}
+                                  </h4>
+                                  {img?.user?.for_hire === true ? (
+                                    <span className='text-white text-sm'>
+                                      Available for hire{' '}
+                                    </span>
+                                  ) : (
+                                    <span className='text-white text-sm'>
+                                      Not available for hire{' '}
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                              <button className=''>
+                                <FontAwesomeIcon icon={faDownload} />
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </Link>
                     )
                   })}
             </section>
