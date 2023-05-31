@@ -164,14 +164,16 @@ export default function Header({ activePage }) {
             style={{ fontSize: 30, color: 'grey' }}
           />
         </div>
-        <button onClick={() => setMenuBars(true)}>
-          {' '}
-          <FontAwesomeIcon
-            icon={faBars}
-            style={{ fontSize: 20, color: 'grey' }}
-          />
+        <div className='relative'>
+          <button onClick={() => setMenuBars(!menuBars)}>
+            {' '}
+            <FontAwesomeIcon
+              icon={faBars}
+              style={{ fontSize: 20, color: 'grey' }}
+            />
+          </button>
           {menuBars && <ToggleMenu />}
-        </button>
+        </div>
       </section>
     </main>
   )

@@ -3,26 +3,14 @@ import Image from 'next/image'
 import { useDispatch, useSelector } from 'react-redux'
 
 import {
-  faChevronDown,
+  faArrowDown,
   faChevronLeft,
   faChevronRight,
-  faCircleExclamation,
-  faDownload,
-  faEllipsis,
-  faExclamation,
   faHeart,
   faPlus,
-  faPlusSquare,
-  faShare,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { setSearchInput, setSearchResults } from '@/store/searchSlice'
-import {
-  setIsModalOpen,
-  setSelectedImg,
-  setSelectedPhotos,
-  setSelectedPhotosDetails,
-} from '@/store/photosSlice'
+import { setIsModalOpen, setSelectedImg } from '@/store/photosSlice'
 import Link from 'next/link'
 
 const viewOptions = ['Editorial', 'Following']
@@ -186,7 +174,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className='relative 2xl:h-[700px] lg:h-[600px] md:h-[400px] sm:h-[250px]'>
+      <div className='relative 2xl:h-[700px] lg:h-[600px] md:h-[400px] sm:h-[300px]'>
         {wallpaperUrl && (
           <Image
             src={wallpaperUrl}
@@ -271,7 +259,7 @@ export default function Hero() {
                                 <FontAwesomeIcon icon={faHeart} />
                               </button>
                               <button className='w-[40px] h-[40px] rounded-lg flex justify-center items-center p-2 bg-white font-medium '>
-                                <FontAwesomeIcon icon={faPlusSquare} />
+                                <FontAwesomeIcon icon={faPlus} />
                               </button>
                             </div>
 
@@ -302,7 +290,7 @@ export default function Hero() {
                                 </div>
                               </div>
                               <button className=''>
-                                <FontAwesomeIcon icon={faDownload} />
+                                <FontAwesomeIcon icon={faArrowDown} />
                               </button>
                             </div>
                           </div>
@@ -339,7 +327,7 @@ export default function Hero() {
                                 <FontAwesomeIcon icon={faHeart} />
                               </button>
                               <button className='w-[40px] h-[40px] rounded-lg flex justify-center items-center p-2 bg-white font-medium '>
-                                <FontAwesomeIcon icon={faPlusSquare} />
+                                <FontAwesomeIcon icon={faPlus} />
                               </button>
                             </div>
 
@@ -369,8 +357,8 @@ export default function Hero() {
                                   )}
                                 </div>
                               </div>
-                              <button className=''>
-                                <FontAwesomeIcon icon={faDownload} />
+                              <button className='bg-gray-300 h-[40px] w-[40px] rounded-lg p-2 '>
+                                <FontAwesomeIcon icon={faArrowDown} />
                               </button>
                             </div>
                           </div>
