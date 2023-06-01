@@ -7,12 +7,15 @@ import {
 } from '@/store/photosSlice'
 import {
   faCalendar,
+  faCamera,
+  faCheckCircle,
   faChevronDown,
   faCircleExclamation,
   faEllipsis,
   faHeart,
   faPlus,
   faShare,
+  faShieldVirus,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Image from 'next/image'
@@ -84,12 +87,9 @@ selectedImg state changes. */
               {selectedImgDetails?.user?.for_hire === true ? (
                 <span className='text-blue-500 text-sm'>
                   Available for hire{' '}
+                  <FontAwesomeIcon icon={faCheckCircle} color='blue' />
                 </span>
-              ) : (
-                <span className='text-gray-400 text-sm'>
-                  Not available for hire{' '}
-                </span>
-              )}
+              ) : null}
             </div>
           </div>
 
@@ -132,8 +132,8 @@ selectedImg state changes. */
           quality={100}
           className={`object-contain ${
             selectedImgDetails?.width > selectedImgDetails?.height
-              ? 'aspect-w-2 aspect-h-3 lg:w-full lg:h-full md:w-full md:h-full sm:w-full sm:h-full'
-              : 'aspect-w-3 aspect-h-2 lg:w-full lg:h-full md:w-full md:h-full sm:w-full sm:h-full'
+              ? 'aspect-w-2 aspect-h-3 2xl:h-[50rem] lg:h-[35rem] md:h-full sm:h-full object-contain mx-auto'
+              : 'aspect-w-3 aspect-h-2 2xl:h-[50rem] lg:h-[35rem] md:h-full sm:h-full object-contain mx-auto'
           }`}
           onLoad={() => dispatch(setIsLoading(false))}
         />
@@ -176,11 +176,11 @@ selectedImg state changes. */
           </p>
           <p className='flex items-center gap-2'>
             {' '}
-            <FontAwesomeIcon icon={faCalendar} />
+            <FontAwesomeIcon icon={faCamera} />
             FUJIFILM, X-T2{' '}
           </p>
           <p className='flex items-center gap-2'>
-            <FontAwesomeIcon icon={faCalendar} />
+            <FontAwesomeIcon icon={faShieldVirus} />
             Free to use under the Unsplash License
           </p>
         </div>

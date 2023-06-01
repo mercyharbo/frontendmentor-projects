@@ -5,13 +5,16 @@ import Link from 'next/link'
 
 import {
   faArrowDown,
+  faCheckCircle,
   faChevronLeft,
   faChevronRight,
   faHeart,
   faPlus,
+  faSearch,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
+  setCategoryParams,
   setErrorMessage,
   setHeroPhoto,
   setIsFailure,
@@ -22,6 +25,7 @@ import {
 } from '@/store/photosSlice'
 
 import categoriesData from './categories.json'
+import heroDetailsData from './heroDetails.json'
 
 export default function Hero() {
   const dispatch = useDispatch()
@@ -29,7 +33,6 @@ export default function Hero() {
 
   const perPage = 10
   const [page, setPage] = useState(1)
-  const [categoryParams, setCategoryParams] = useState('wallpaper')
   const [showOverlay, setShowOverlay] = useState(false)
 
   const searchInput = useSelector((state) => state.searchSlice.searchInput)
@@ -39,6 +42,9 @@ export default function Hero() {
   const isFailed = useSelector((state) => state.photosSlice.isFailure)
   const isLoading = useSelector((state) => state.photosSlice.isLoading)
   const errorMessage = useSelector((state) => state.photosSlice.errorMessage)
+  const categoryParams = useSelector(
+    (state) => state.photosSlice.categoryParams
+  )
 
   const fetchRandomPhoto = async (category) => {
     const response = await fetch(
@@ -110,17 +116,17 @@ export default function Hero() {
 
   return (
     <main className='w-full'>
-      <div className='flex flex-row justify-between items-center bg-white 2xl:gap-5 xl:gap-4 lg:px-10 md:px-10 sm:px-5 divide-x divide-gray-300 py-3  '>
+      <div className='flex flex-row justify-between items-center 2xl:gap-5 xl:gap-4 lg:px-10 md:px-10 sm:px-5 sm:gap-2 divide-x divide-gray-300 py-2  '>
         <div className='flex flex-row lg:gap-5 md:gap-4 sm:gap-2'>
           {categoriesData.editor.map((option) => (
             <button
               key={option}
               className={
                 categoryParams === option
-                  ? 'text-gray-500 border-b-2 border-black capitalize py-1 '
+                  ? 'text-gray-500 border-b-2 text-sm border-black capitalize py-1 '
                   : 'text-gray-500 text-sm capitalize '
               }
-              onClick={() => setCategoryParams(option)}
+              onClick={() => dispatch(setCategoryParams(option))}
             >
               {option}
             </button>
@@ -143,11 +149,11 @@ export default function Hero() {
                 key={category}
                 className={
                   categoryParams === category
-                    ? 'text-gray-500 border-b-2 border-black capitalize py-1'
+                    ? 'text-gray-500 border-b-2 text-sm border-black capitalize py-1'
                     : 'text-gray-500 text-sm capitalize '
                 }
                 style={{ whiteSpace: 'nowrap' }}
-                onClick={() => setCategoryParams(category)}
+                onClick={() => dispatch(setCategoryParams(category))}
               >
                 {category}
               </button>
@@ -166,41 +172,47 @@ export default function Hero() {
         <Image
           src={
             randomHeroImage?.urls?.raw ||
-            'https://images.unsplash.com/photo-1685399124857-ab2bc1053311?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=765&q=80'
+            'https://images.unsplash.com/photo-1685443866545-57adcff6e0be?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1964&q=80'
           }
           alt={randomHeroImage?.description || 'Hero header image'}
           width={1000}
           height={1000}
           quality={100}
-          className='w-full 2xl:h-[700px] lg:h-[600px] md:h-[400px] sm:h-[300px]'
+          className='w-full object-cover object-center 2xl:h-[700px] lg:h-[600px] md:h-[400px] sm:h-[300px]'
         />
 
-        {categoryParams === 'wallpaper' && (
-          <section
-            className='flex flex-col justify-center lg:items-start lg:p-20 md:p-20 md:items-start sm:p-5 sm:items-start gap-5 
-          absolute top-0 bg-[#0000007c] h-full w-full text-white'
-          >
-            <h1 className='lg:text-4xl md:text-4xl sm:text-2xl font-bold font-serif'>
-              {' '}
-              Wallpapers{' '}
-            </h1>
-            <p className='lg:w-[50%] lg:text-lg md:text-lg md:w-full sm:text-base sm:w-full font-medium '>
-              {' '}
-              From epic drone shots to inspiring moments in nature — submit your
-              best desktop and mobile backgrounds.{' '}
-            </p>
-            <button
-              type='submit'
-              className='bg-white px-8 h-[50px] rounded-lg text-gray-500 gap-2 lg:flex lg:justify-center lg:items-center md:flex md:justify-center md:items-center sm:hidden '
-            >
-              {' '}
-              Submit to{' '}
-              <span className='font-medium text-black '>
-                {categoryParams}
-              </span>{' '}
-            </button>
-          </section>
-        )}
+        {Object.entries(heroDetailsData).map(([key, value]) => {
+          return (
+            <>
+              {categoryParams === key && (
+                <article
+                  className='flex flex-col justify-center 2xl:pl-[15rem] lg:items-start lg:pl-[10rem] md:pl-[5rem] md:items-start sm:items-start sm:pl-[2rem] gap-5 
+                  absolute top-0 bg-[#0000007c] h-full w-full text-white'
+                >
+                  <h1 className='lg:text-5xl md:text-4xl sm:text-2xl font-bold font-serif'>
+                    {value.title}
+                  </h1>
+                  <p className='2xl:w-[25%] lg:w-[50%] lg:text-lg md:text-lg md:w-full sm:text-base sm:w-full font-medium '>
+                    {value.description}
+                  </p>
+
+                  {value.button && (
+                    <button
+                      type='submit'
+                      className='bg-white px-8 h-[50px] rounded-lg text-gray-500 gap-2 lg:flex lg:justify-center lg:items-center md:flex md:justify-center md:items-center sm:hidden '
+                    >
+                      {' '}
+                      Submit to{' '}
+                      <span className='font-medium text-black '>
+                        {categoryParams}
+                      </span>{' '}
+                    </button>
+                  )}
+                </article>
+              )}
+            </>
+          )
+        })}
       </div>
 
       <div className=''>
@@ -271,6 +283,7 @@ export default function Hero() {
                                   {img?.user?.for_hire === true ? (
                                     <span className='text-white text-sm'>
                                       Available for hire{' '}
+                                      <FontAwesomeIcon icon={faCheckCircle} />
                                     </span>
                                   ) : (
                                     <span className='text-white text-sm'>
@@ -339,12 +352,9 @@ export default function Hero() {
                                   {img?.user?.for_hire === true ? (
                                     <span className='text-white text-sm'>
                                       Available for hire{' '}
+                                      <FontAwesomeIcon icon={faCheckCircle} />
                                     </span>
-                                  ) : (
-                                    <span className='text-white text-sm'>
-                                      Not available for hire{' '}
-                                    </span>
-                                  )}
+                                  ) : null}
                                 </div>
                               </div>
                               <button className='bg-gray-300 h-[40px] w-[40px] rounded-lg p-2 '>

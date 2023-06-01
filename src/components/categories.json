@@ -1,24 +1,24 @@
 {
-  "editor": ["Editorial", "Following"],
+  "editor": ["editorial", "following"],
   "categories": [
     "wallpaper",
     "3D Renders",
-    "native",
+    "nature",
     "travel",
-    "Architecture & Interior",
-    "Street Photograpy",
-    "Texture & Patterns",
+    "architecture & interior",
+    "street photography",
+    "textures & patterns",
     "film",
     "experimental",
     "animals",
-    "Fashion & Beauty",
-    "Business & Work",
-    "Food & Drink",
+    "fashion & beauty",
+    "business & work",
+    "food & drink",
     "people",
     "sprituality",
     "athletics",
-    "Health & Wellnesss",
-    "Current Events",
-    "Arts & Culture"
+    "health & wellness",
+    "current events",
+    "arts & culture"
   ]
 }

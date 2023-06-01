@@ -9,7 +9,7 @@ const initialState = {
   photos: [],
   heroPhoto: null,
   errorMessage: null,
-  page: 1,
+  categoryParams: 'editorial',
 }
 
 const photosSlice = createSlice({
@@ -40,8 +40,8 @@ const photosSlice = createSlice({
     setHeroPhoto: (state, action) => {
       state.heroPhoto = action.payload
     },
-    setPage: (state, action) => {
-      state.page = action.payload
+    setCategoryParams: (state, action) => {
+      state.categoryParams = action.payload
     },
   },
 })
@@ -55,6 +55,6 @@ export const {
   setPhotos,
   setErrorMessage,
   setIsFailure,
-  setPage,
+  setCategoryParams,
 } = photosSlice.actions
 export default photosSlice.reducer
