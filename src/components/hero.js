@@ -20,6 +20,7 @@ import {
   setIsFailure,
   setIsLoading,
   setIsModalOpen,
+  setPhotoDownloadData,
   setPhotos,
   setSelectedImg,
 } from '@/store/photosSlice'
@@ -44,6 +45,9 @@ export default function Hero() {
   const errorMessage = useSelector((state) => state.photosSlice.errorMessage)
   const categoryParams = useSelector(
     (state) => state.photosSlice.categoryParams
+  )
+  const photoDownloadData = useSelector(
+    (state) => state.photosSlice.photoDownloadData
   )
 
   const fetchRandomPhoto = async (category) => {
@@ -87,9 +91,27 @@ export default function Hero() {
     }
   }
 
+  const downloadPhoto = async () => {
+    try {
+      const response = await axios.get(
+        `https://api.unsplash.com/photos/${photoId}`,
+        {
+          headers: {
+            Authorization: `Client-ID ${process.env.UNSPLASH_KEY}`,
+          },
+        }
+      )
+
+      dispatch(setPhotoDownloadData(response.data))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
     fetchPhotos()
     fetchRandomPhoto(categoryParams)
+    downloadPhoto()
   }, [categoryParams])
 
   const loadMore = () => {
@@ -112,6 +134,23 @@ export default function Hero() {
 
   const handleScrollRight = () => {
     categoriesRef.current.scrollLeft += 100
+  }
+
+  const handleDownload = async (photoId) => {
+    const selectedPhoto = photos.find((img) => img.id === photoId)
+
+    if (selectedPhoto) {
+      const downloadUrl = selectedPhoto.urls.full
+      const response = await fetch(downloadUrl)
+      const blob = await response.blob()
+      const url = window.URL.createObjectURL(new Blob([blob]))
+      const link = document.createElement('a')
+      link.href = url
+      link.setAttribute('download', `photo_${selectedPhoto.id}.jpg`)
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+    }
   }
 
   return (
@@ -292,7 +331,14 @@ export default function Hero() {
                                   )}
                                 </div>
                               </div>
-                              <button className=''>
+                              <button
+                                onClick={(e) => {
+                                  e.preventDefault()
+                                  e.stopPropagation()
+                                  handleDownload(img.id)
+                                }}
+                                className='bg-gray-300 h-[40px] w-[40px] rounded-lg p-2 '
+                              >
                                 <FontAwesomeIcon icon={faArrowDown} />
                               </button>
                             </div>
@@ -357,7 +403,14 @@ export default function Hero() {
                                   ) : null}
                                 </div>
                               </div>
-                              <button className='bg-gray-300 h-[40px] w-[40px] rounded-lg p-2 '>
+                              <button
+                                onClick={(e) => {
+                                  e.preventDefault()
+                                  e.stopPropagation()
+                                  handleDownload(img.id)
+                                }}
+                                className='bg-gray-300 h-[40px] w-[40px] rounded-lg p-2 '
+                              >
                                 <FontAwesomeIcon icon={faArrowDown} />
                               </button>
                             </div>

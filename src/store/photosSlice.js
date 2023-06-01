@@ -10,6 +10,7 @@ const initialState = {
   heroPhoto: null,
   errorMessage: null,
   categoryParams: 'editorial',
+  photoDownloadData: null,
 }
 
 const photosSlice = createSlice({
@@ -43,6 +44,9 @@ const photosSlice = createSlice({
     setCategoryParams: (state, action) => {
       state.categoryParams = action.payload
     },
+    setPhotoDownloadData: (state, action) => {
+      state.photoDownloadData = action.payload
+    },
   },
 })
 
@@ -56,5 +60,6 @@ export const {
   setErrorMessage,
   setIsFailure,
   setCategoryParams,
+  setPhotoDownloadData,
 } = photosSlice.actions
 export default photosSlice.reducer
