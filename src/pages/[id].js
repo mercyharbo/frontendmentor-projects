@@ -62,6 +62,23 @@ selectedImg state changes. */
     return date.toLocaleDateString('en-US', options)
   }
 
+  const handleDownload = async (photoId) => {
+    // const selectedPhoto = selectedImgDetails.find((img) => img.id === photoId)
+
+    if (selectedImgDetails) {
+      const downloadUrl = selectedImgDetails.urls.full
+      const response = await fetch(downloadUrl)
+      const blob = await response.blob()
+      const url = window.URL.createObjectURL(new Blob([blob]))
+      const link = document.createElement('a')
+      link.href = url
+      link.setAttribute('download', `photo_${selectedImgDetails.id}.jpg`)
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+    }
+  }
+
   if (isLoading) {
     return <p className='text-2xl p-4'>Loading...</p>
   }
@@ -110,6 +127,11 @@ selectedImg state changes. */
             </div>
 
             <button
+              onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                handleDownload(selectedImgDetails.id)
+              }}
               className=' relative lg:h-[40px] lg:w-[140px] lg:px-5 md:h-[40px] md:w-[130px] md:pl-3 sm:h-[40px] sm:w-[120px] sm:px-2 rounded-lg 
               flex flex-row justify-start items-center border-[1px] border-gray-400  '
             >
@@ -127,8 +149,8 @@ selectedImg state changes. */
         <Image
           src={selectedImgDetails?.urls?.full || ''}
           alt={selectedImgDetails?.alt_description || 'Picture'}
-          width={1000}
-          height={1000}
+          width={500}
+          height={500}
           quality={100}
           className={`object-contain ${
             selectedImgDetails?.width > selectedImgDetails?.height
@@ -185,6 +207,17 @@ selectedImg state changes. */
           </p>
         </div>
 
+        <article className='flex justify-center items-center gap-5 flex-wrap py-4 px-5 '>
+          {selectedImgDetails?.tags?.map((tag) => {
+            return (
+              <p className='bg-gray-500 capitalize p-2 text-white rounded-lg text-sm'>
+                {' '}
+                {tag.title}
+              </p>
+            )
+          })}
+        </article>
+
         <article
           className='grid grid-cols-1 lg:grid-cols-4 lg:gap-4 lg:w-[90%] lg:mx-auto lg:p-14 md:grid-cols-2 md:w-full md:p-10 md:gap-4 sm:grid-cols-1 
               sm:p-0 sm:py-8 sm:gap-14'
@@ -195,8 +228,8 @@ selectedImg state changes. */
                 <Image
                   src={img?.preview_photos?.[0]?.urls?.full || ''}
                   alt={img?.preview_photos?.[0]?.alt_description || 'Picture'}
-                  width={1000}
-                  height={1000}
+                  width={500}
+                  height={500}
                   quality={100}
                   className={`lg:w-full lg:h-full object-cover cursor-pointer ${
                     img.cover_photo.width > img.cover_photo.height
