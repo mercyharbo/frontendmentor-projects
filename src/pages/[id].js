@@ -208,9 +208,12 @@ selectedImg state changes. */
         </div>
 
         <article className='flex justify-center items-center gap-5 flex-wrap py-4 px-5 '>
-          {selectedImgDetails?.tags?.map((tag) => {
+          {selectedImgDetails?.tags?.map((tag, index) => {
             return (
-              <p className='bg-gray-500 capitalize p-2 text-white rounded-lg text-sm'>
+              <p
+                key={index}
+                className='bg-gray-500 capitalize p-2 text-white rounded-lg text-sm'
+              >
                 {' '}
                 {tag.title}
               </p>
