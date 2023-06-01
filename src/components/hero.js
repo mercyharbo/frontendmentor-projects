@@ -1,6 +1,7 @@
-const { useState, useRef, useEffect } = require('react')
+import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import { useDispatch, useSelector } from 'react-redux'
+import Link from 'next/link'
 
 import {
   faArrowDown,
@@ -10,53 +11,34 @@ import {
   faPlus,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { setIsModalOpen, setSelectedImg } from '@/store/photosSlice'
-import Link from 'next/link'
+import {
+  setErrorMessage,
+  setHeroPhoto,
+  setIsFailure,
+  setIsLoading,
+  setIsModalOpen,
+  setPhotos,
+  setSelectedImg,
+} from '@/store/photosSlice'
 
-const viewOptions = ['Editorial', 'Following']
-
-const categories = [
-  'wallpaper',
-  '3D Renders',
-  'native',
-  'travel',
-  'Architecture & Interior',
-  'Street Photograpy',
-  'Texture & Patterns',
-  'film',
-  'experimental',
-  'animals',
-  'Fashion & Beauty',
-  'Business & Work',
-  'Food & Drink',
-  'people',
-  'sprituality',
-  'athletics',
-  'Health & Wellnesss',
-  'Current Events',
-  'Arts & Culture',
-]
+import categoriesData from './categories.json'
 
 export default function Hero() {
   const dispatch = useDispatch()
-  const [activeOption, setActiveOption] = useState(viewOptions[0])
   const categoriesRef = useRef(null)
-  const [wallpaperUrl, setWallpaperUrl] = useState('')
-  const [data, setData] = useState([])
 
   const perPage = 10
   const [page, setPage] = useState(1)
-  const [photos, setPhotos] = useState([])
   const [categoryParams, setCategoryParams] = useState('wallpaper')
-
-  const [isLoading, setIsLoading] = useState(false)
-  const [isFailed, setIsFailed] = useState(false)
-  const [errorMessage, setErrorMessage] = useState(null)
-
   const [showOverlay, setShowOverlay] = useState(false)
 
   const searchInput = useSelector((state) => state.searchSlice.searchInput)
   const searchResults = useSelector((state) => state.searchSlice.searchResults)
+  const randomHeroImage = useSelector((state) => state.photosSlice.heroPhoto)
+  const photos = useSelector((state) => state.photosSlice.photos)
+  const isFailed = useSelector((state) => state.photosSlice.isFailure)
+  const isLoading = useSelector((state) => state.photosSlice.isLoading)
+  const errorMessage = useSelector((state) => state.photosSlice.errorMessage)
 
   const fetchRandomPhoto = async (category) => {
     const response = await fetch(
@@ -68,11 +50,11 @@ export default function Hero() {
       }
     )
     const data = await response.json()
-    setWallpaperUrl(data.urls.regular)
+
+    dispatch(setHeroPhoto(data))
   }
 
   const fetchPhotos = async () => {
-    setIsLoading(true)
     const response = await fetch(
       `https://api.unsplash.com/search/photos/?query=${categoryParams}&per_page=${perPage}&page=${page}`,
       {
@@ -84,14 +66,18 @@ export default function Hero() {
 
     if (response.ok) {
       const data = await response.json()
-      setPhotos([...photos, ...data.results])
-      setIsFailed(false)
-      setIsLoading(false)
+      dispatch(setPhotos([...photos, ...data.results]))
+      dispatch(setIsFailure(false))
+      dispatch(setIsLoading(false))
       setPage((prevPage) => prevPage + 1)
     } else {
-      setErrorMessage('Failed to load photos')
-      setIsFailed(true)
-      setIsLoading(false)
+      dispatch(
+        setErrorMessage(
+          'Failed to fetch photos due to rate limit by Unsplash API'
+        )
+      )
+      dispatch(setIsFailure(true))
+      dispatch(setIsLoading(false))
     }
   }
 
@@ -101,7 +87,7 @@ export default function Hero() {
   }, [categoryParams])
 
   const loadMore = () => {
-    setIsLoading(true)
+    // dispatch(setIsLoading(true))
     fetchPhotos()
   }
 
@@ -124,22 +110,24 @@ export default function Hero() {
 
   return (
     <main className='w-full'>
-      <div className='flex flex-row justify-between items-center lg:px-10 md:px-10 sm:px-5 divide-x divide-gray-300 py-3  '>
+      <div className='flex flex-row justify-between items-center bg-white 2xl:gap-5 xl:gap-4 lg:px-10 md:px-10 sm:px-5 divide-x divide-gray-300 py-3  '>
         <div className='flex flex-row lg:gap-5 md:gap-4 sm:gap-2'>
-          {viewOptions.map((option) => (
+          {categoriesData.editor.map((option) => (
             <button
               key={option}
-              className={`lg:px-2 md:px-2 sm:px-1 font-medium lg:text-base md:text-base sm:text-sm ${
-                activeOption === option ? 'text-gray-800' : 'text-gray-500'
-              }`}
-              onClick={() => setActiveOption(option)}
+              className={
+                categoryParams === option
+                  ? 'text-gray-500 border-b-2 border-black capitalize py-1 '
+                  : 'text-gray-500 text-sm capitalize '
+              }
+              onClick={() => setCategoryParams(option)}
             >
               {option}
             </button>
           ))}
         </div>
 
-        <div className='flex flex-row items-center lg:gap-8 overflow-hidden lg:px-4 md:px-4 md:gap-5 sm:gap-2 sm:px-1 '>
+        <div className='flex flex-row items-center 2xl:gap-3 lg:gap-5 overflow-hidden lg:px-4 md:px-4 md:gap-5 sm:gap-2 sm:px-1 '>
           <button
             className='text-gray-500 hover:text-gray-800 focus:outline-none w-[20px] '
             onClick={handleScrollLeft}
@@ -147,16 +135,16 @@ export default function Hero() {
             <FontAwesomeIcon icon={faChevronLeft} />
           </button>
           <div
-            className='flex flex-row overflow-hidden py-2 lg:space-x-2lg:gap-5 md:space-x-2 md:gap-4 sm:gap-2 sm:space-x-1 '
+            className='flex flex-row overflow-hidden py-2 2xl:gap-3 lg:space-x-2 lg:gap-5 md:space-x-2 md:gap-4 sm:gap-2 sm:space-x-1 '
             ref={categoriesRef}
           >
-            {categories.map((category) => (
+            {categoriesData.categories.map((category) => (
               <button
                 key={category}
                 className={
                   categoryParams === category
-                    ? 'text-gray-500 font-medium border-b-2 border-black capitalize lg:text-base md:text-base sm:text-sm '
-                    : 'text-gray-500 text-sm font-medium capitalize '
+                    ? 'text-gray-500 border-b-2 border-black capitalize py-1'
+                    : 'text-gray-500 text-sm capitalize '
                 }
                 style={{ whiteSpace: 'nowrap' }}
                 onClick={() => setCategoryParams(category)}
@@ -175,16 +163,18 @@ export default function Hero() {
       </div>
 
       <div className='relative 2xl:h-[700px] lg:h-[600px] md:h-[400px] sm:h-[300px]'>
-        {wallpaperUrl && (
-          <Image
-            src={wallpaperUrl}
-            alt={data.alt_description || 'Wallpaper'}
-            width={1000}
-            height={1000}
-            quality={100}
-            className='w-full 2xl:h-[700px] lg:h-[600px] md:h-[400px] sm:h-[300px] object-fit'
-          />
-        )}
+        <Image
+          src={
+            randomHeroImage?.urls?.raw ||
+            'https://images.unsplash.com/photo-1685399124857-ab2bc1053311?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=765&q=80'
+          }
+          alt={randomHeroImage?.description || 'Hero header image'}
+          width={1000}
+          height={1000}
+          quality={100}
+          className='w-full 2xl:h-[700px] lg:h-[600px] md:h-[400px] sm:h-[300px]'
+        />
+
         {categoryParams === 'wallpaper' && (
           <section
             className='flex flex-col justify-center lg:items-start lg:p-20 md:p-20 md:items-start sm:p-5 sm:items-start gap-5 
